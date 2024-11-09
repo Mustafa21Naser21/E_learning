@@ -8,7 +8,7 @@ export default function AddTermEditor() {
 
   function addTerm(){
     Swal.fire({
-      position: "top-center",
+      position: "center",
       icon: "success",
       title: "تم  اضافة البند بنجاح",
       showConfirmButton: false,
@@ -17,7 +17,7 @@ export default function AddTermEditor() {
   }
   function addAttached(){
     Swal.fire({
-      position: "top-center",
+      position: "center",
       icon: "success",
       title: "تم  اضافة المرفق بنجاح",
       showConfirmButton: false,
@@ -79,7 +79,9 @@ export default function AddTermEditor() {
    </form>
 
     <div className="btn-add-term">
-    <button onClick={addTerm} className="w-60 h-14 mb-10 mt-10 bg-header border-2 border-gray-400 text-white text-4xl px-4 py-2 rounded-lg"> <Link to='/categorytitleEditor'>اضافة بند</Link><i className="fa-solid fa-check  border-2 border-white w-8 h-8 rounded-full text-xl "></i></button>
+    <button onClick={addTerm} className="w-60 h-14 mb-10 mt-10 bg-header border-2 border-gray-400 text-white text-4xl px-4 py-2 rounded-lg hover:opacity-90 transition-opacity"> 
+      <Link to='/categorytitleEditor'>اضافة بند</Link><i className="fa-solid fa-check  border-2 border-white w-8 h-8 rounded-full text-xl "></i>
+      </button>
    </div>
 
    <div className="add-file bg-white hidden w-96 h-96 rounded-lg">

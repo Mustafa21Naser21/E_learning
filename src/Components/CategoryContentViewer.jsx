@@ -58,7 +58,7 @@ export default function CategoryContentViewer() {
                    </div>
                </div>
 
-               <h2 className='text-center text-white mt-6 h-44 text-xl px-2'> <Link to='/termcontent'> التعليمية بتوفير
+               <h2 className='text-center text-white mt-6 h-44 text-xl px-2'> <Link to='/termcontentViewer'> التعليمية بتوفير
  اسس واجراءات
  واضحة للتعلم
  الالكتروني</Link>

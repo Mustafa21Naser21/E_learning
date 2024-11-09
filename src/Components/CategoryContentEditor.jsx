@@ -37,11 +37,11 @@ export default function CategoryContentEditor() {
             <div className="category-title mt-10">
                 <div className="mt-10 px-10">
                     <h1  className="text-5xl font-bold max-sm:text-4xl">عنوان الفئة :</h1>
-                    <h1  className="text-2xl h-auto mt-4 ">لللل</h1>
+                    <h1  className="text-2xl h-auto mt-4 ">جراءات الجامعة تأتي في صوء نظام إدماج التعليم الإلكتروني في مؤسسات التعليم العالي لسنة 2021 وخطة إدماج التعليم الإلكتروني في مؤسسات التعليم العالي والتي تبنتها وزارة التعليم العالي لتطبق في جميع الجامعات الاردني. بحيث اصدرت الجامعة اجراءات مقترحة للعودة للحرم الجامعي في الرابط الاول ,بالاضافة الى اسس واضحة للتعليم الالكتروني في الجامعة</h1>
                 </div>
                  <div className="mt-10 px-10">
                     <h1  className=" text-5xl font-bold max-sm:text-4xl">وصف الفئة :</h1>
-                    <h1  className=" text-2xl h-auto  mt-4 ">لللل</h1>
+                    <h1  className=" text-2xl h-auto  mt-4 ">جراءات الجامعة تأتي في صوء نظام إدماج التعليم الإلكتروني في مؤسسات التعليم العالي لسنة 2021 وخطة إدماج التعليم الإلكتروني في مؤسسات التعليم العالي والتي تبنتها وزارة التعليم العالي لتطبق في جميع الجامعات الاردني. بحيث اصدرت الجامعة اجراءات مقترحة للعودة للحرم الجامعي في الرابط الاول ,بالاضافة الى اسس واضحة للتعليم الالكتروني في الجامعة</h1>
                 </div>
                 <div className='mt-10  px-10'>
                     <h1 className="text-5xl font-bold max-sm:text-4xl" >البنود :</h1>
@@ -50,7 +50,9 @@ export default function CategoryContentEditor() {
             </div>
 
             <div className='flex justify-center mt-20'>
-                <button className='w-40 h-16 px-6 py-2  bg-header text-white text-3xl  rounded-lg'> <Link to='/addtermeditor'>اضافة بند</Link></button>
+                <button className='w-40 h-16 px-6 py-2  bg-header text-white text-3xl  rounded-lg hover:opacity-90 transition-opacity'> 
+                    <Link to='/addtermeditor'>اضافة بند</Link>
+                    </button>
                 </div>
 
             <div className="terms mt-10 mb-10 grid grid-cols-3  justify-items-center">

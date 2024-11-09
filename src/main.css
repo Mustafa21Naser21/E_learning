@@ -42,7 +42,7 @@ opacity: 0.7;
 
 .add-category .center-category{
     width: 500px;
-    height: 600px;
+    height: 500px;
     border: solid black 5px;
     border-top: solid transparent 5px;
     border-bottom: solid transparent 5px;
@@ -53,11 +53,11 @@ opacity: 0.7;
 .add1::before{
     content: '';
     position: absolute;
-    width: 115px;
+    width: 130px;
     height: 5px;
     background-color:var(--greenYellow) ;
-    left: -115px;
-    top: 30px;
+    left: -130px;
+    top: 35px;
 }
 .add1::after{
     content: '';
@@ -67,17 +67,17 @@ opacity: 0.7;
     border: 1px solid var(--greenYellow);
     border-radius: 50%;
     background-color:var(--greenYellow) ;
-    left: -120px;
-    top: 22px;
+    left: -130px;
+    top: 27px;
 }
 .add2::before{
     content: '';
     position: absolute;
-    width: 115px;
+    width: 130px;
     height: 5px;
     background-color:var(--greenYellow) ;
-    right: -115px;
-    top: 30px;
+    right: -130px;
+    top: 35px;
 }
 .add2::after{
     content: '';
@@ -87,17 +87,17 @@ opacity: 0.7;
     border: 1px solid var(--greenYellow);
     border-radius: 50%;
     background-color:var(--greenYellow) ;
-    right: -120px;
-    top: 22px;
+    right: -130px;
+    top: 27px;
 }
 .add3::before{
     content: '';
     position: absolute;
-    width: 80px;
+    width: 75px;
     height: 5px;
     background-color:var(--green) ;
-    left: -80px;
-    top: 30px;
+    left: -75px;
+    top: 40px;
 }
 .add3::after{
     content: '';
@@ -107,17 +107,17 @@ opacity: 0.7;
     border: 1px solid var(--green);
     border-radius: 50%;
     background-color:var(--green) ;
-    left: -85px;
-    top: 22px;
+    left: -75px;
+    top: 32px;
 }
 .add4::before{
     content: '';
     position: absolute;
-    width: 85px;
+    width: 80px;
     height: 5px;
     background-color:var(--green) ;
-    right: -85px;
-    top: 30px;
+    right: -80px;
+    top: 40px;
 }
 .add4::after{
     content: '';
@@ -127,17 +127,17 @@ opacity: 0.7;
     border: 1px solid var(--green);
     border-radius: 50%;
     background-color:var(--green) ;
-    right: -85px;
-    top: 22px;
+    right: -80px;
+    top: 32px;
 }
 .add5::before{
     content: '';
     position: absolute;
-    width: 80px;
+    width: 65px;
     height: 5px;
     background-color:var(--darkBlue) ;
-    left: -80px;
-    top: 30px;
+    left: -65px;
+    top: 42px;
 }
 .add5::after{
     content: '';
@@ -147,17 +147,17 @@ opacity: 0.7;
     border: 1px solid var(--darkBlue);
     border-radius: 50%;
     background-color:var(--darkBlue) ;
-    left: -80px;
-    top: 22px;
+    left: -65px;
+    top: 34px;
 }
 .add6::before{
     content: '';
     position: absolute;
-    width: 80px;
+    width: 70px;
     height: 5px;
     background-color:var(--darkBlue) ;
-    right: -80px;
-    top: 30px;
+    right: -70px;
+    top: 32px;
 }
 .add6::after{
     content: '';
@@ -167,18 +167,18 @@ opacity: 0.7;
     border: 1px solid var(--darkBlue);
     border-radius: 50%;
     background-color:var(--darkBlue) ;
-    right: -80px;
-    top: 22px;
+    right: -70px;
+    top: 24px;
 }
 
 .add7::before{
     content: '';
     position: absolute;
-    width: 90px;
+    width: 80px;
     height: 5px;
     background-color:var(--purple) ;
-    left: -90px;
-    top: 30px;
+    left: -80px;
+    top: 32px;
 }
 .add7::after{
     content: '';
@@ -188,17 +188,17 @@ opacity: 0.7;
     border: 1px solid var(--purple);
     border-radius: 50%;
     background-color:var(--purple) ;
-    left: -90px;
-    top: 22px;
+    left: -80px;
+    top: 24px;
 }
 .add8::before{
     content: '';
     position: absolute;
-    width: 90px;
+    width: 85px;
     height: 5px;
     background-color:var(--purple) ;
-    right: -90px;
-    top: 30px;
+    right: -85px;
+    top: 32px;
 }
 .add8::after{
     content: '';
@@ -208,16 +208,16 @@ opacity: 0.7;
     border: 1px solid var(--purple);
     border-radius: 50%;
     background-color:var(--purple) ;
-    right: -90px;
-    top: 22px;
+    right: -85px;
+    top: 24px;
 }
 .add9::before{
     content: '';
     position: absolute;
-    width: 135px;
+    width: 130px;
     height: 5px;
     background-color:var(--red) ;
-    left: -135px;
+    left: -130px;
     top: 30px;
 }
 .add9::after{
@@ -228,7 +228,7 @@ opacity: 0.7;
     border: 1px solid var(--red);
     border-radius: 50%;
     background-color:var(--red) ;
-    left: -135px;
+    left: -130px;
     top: 22px;
 }
 .add10::before{
@@ -254,16 +254,16 @@ opacity: 0.7;
 }
 .modify-icon{
     position: absolute;
-    font-size: 16px;
-    left: 15px;
-    top: 20px;
+    font-size: 14px;
+    left: 5px;
+    top: 30px;
     cursor: pointer;
 }
 .delete-icon{
     position: absolute;
-    font-size: 16px;
-    right: 15px;
-    top: 20px;
+    font-size: 14px;
+    right: 5px;
+    top: 30px;
     cursor: pointer;
 }
 .profile{
@@ -291,13 +291,13 @@ opacity: 0.7;
 }
 .add-category .left-category{
 
-    transform: translateX(35px);
+    transform: translateX(10px);
     z-index: 2;
     cursor: pointer;
 }
 .add-category .right-category{
 
-    transform: translateX(-110px);
+    transform: translateX(-70px);
     z-index: 2;
     cursor: pointer;
 }
@@ -438,9 +438,18 @@ opacity: 0.7;
 }
 .attached{
     transform:rotate(45deg);
+    transition: 0.3s;
+}
+.attached:hover{
+    transform:rotate(0) ;
+    .attached-text{
+        transform: rotate(0)translateY(20px) !important;
+    
+    }
 }
 .attached-text{
-    transform: rotate(-45deg)translate(-35px,10px);
+    transform: rotate(-45deg)translate(-35px,10px) !important;
+    transition: 0.3s;
 
 }
 div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){
@@ -456,6 +465,7 @@ div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){
     transform: translateX(-50%);
     border: 2px solid gray;
     border-radius: 10px;
+    overflow: visible !important;
 }
 .profile-admin .fa-xmark{
     position: absolute;
@@ -465,27 +475,33 @@ div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){
     font-size: 20px;
     cursor: pointer;
 }
-.profile-admin .fa-pen{
-    position: absolute;
+.profile-admin .fa-pen{   
     background-color: gray;
     width: 20px;
     height: 20px;
     color: white;
     border-radius: 50%;
-    left: 57%;
-    top: 27%;
     cursor: pointer;  
 }
-.profile-viewer .fa-pen{
+.profile-admin .change-picture{
     position: absolute;
-    background-color: gray;
+    left: 62%;
+    top:35%;
+    z-index: 30;
+}
+.profile-viewer .fa-pen{
+   background-color: gray;
     width: 20px;
     height: 20px;
     color: white;
     border-radius: 50%;
-    left: 57%;
-    top: 27%;
     cursor: pointer; 
+}
+.profile-viewer .change-picture{
+    position: absolute;
+    left: 62%;
+    top:35%;
+    z-index: 30;
 }
 .profile-viewer{
     position: absolute;
@@ -554,6 +570,23 @@ div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){
     left: 57%;
     top: 17%;
     cursor: pointer; 
+}
+.icon-add-picture{
+    position: absolute;
+    right: 5%;
+    top: 90%;
+}
+.add-picture .fa-trash{
+    position: absolute;
+   top: 5px;
+   color: gray;
+}
+.add-picture .fa-plus{
+    position: absolute;
+    left: 50%;
+    bottom:5px;
+    transform: translateX(-50%);
+    color: gray;
 }
 
 
@@ -630,20 +663,6 @@ div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){
     .add-left,.add-right{
         width: 18rem !important;
     }
-    .left-category{
-        
-        width: 80% !important;
-        margin-left: 80px !important;
-      }
-       .right-category{
-         
-         width: 80% !important;
-         margin-left: 50px;
-      }
-       .center-category{
-        width: 80%;
-        margin-left: 40px;   
-    }
 
     .add-category-mobile{
         flex-direction: column;
@@ -651,6 +670,9 @@ div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){
         align-items: center;
         display: flex;
         margin-bottom: 100px;
+    }
+    .add-category-mobile .add-left{
+        width: 18rem !important;
     }
     .add-file{
         width: 350px;
@@ -662,6 +684,7 @@ div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){
 
     .terms-mobile{
         display: grid;
+       
     }
     .terms{
         display: none;
@@ -688,13 +711,15 @@ div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){
     .add-user .fa-pen{
         left: 60%;
     }
-
-
-
- 
+    .icon-add-picture{
+        position: absolute;
+        right:15%;
+        top: 90%;
+    }
  
 }
 
+  
 /*  responsive midduem sreen  */
 
 @media (max-width:1024px){
@@ -712,51 +737,94 @@ div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){
     }
     .add-category .right-category{
 
-        transform: translateX(25px);     
+        transform: translateX(30px);     
     }
     .add-category .center-category{
         transform: translateX(30px);
     }
     .add-left,.add-right{
-        width: 16rem;
-        height: 5rem;
+        width: 16rem !important;
+        height: 5rem !important;
     }
     .add1::before{
-        width: 115px;
-        left: -115px;
+        width: 100px;
+        left: -100px;
     }
     .add1::after{
         width: 20px;
-        left: -115px;   
+        left: -100px;   
     }
     .add2::before{
-        width: 95px;
-        right: -95px;
-    
+        width: 120px;
+        right: -120px;  
     }
     .add2::after{
-        width: 20px;
-        right: -110px;  
+        
+        right: -120px;  
+    }
+    .add3::before{
+        width: 60px;
+        left: -60px;
+    }
+    .add3::after{     
+        left: -60px;  
+    }
+    .add5::before{
+        width: 50px;
+        left: -50px;
+    }
+    .add5::after{     
+        left: -50px;  
+    }
+    .add6::before{
+        width: 60px;
+        right: -60px;
+    }
+    .add6::after{
+        right: -60px 
+    }
+    .add7::before{
+        width: 50px;
+        left: -50px;
+    }
+    .add7::after{     
+        left: -50px;  
+    }
+    .add6::before{
+        width: 60px;
+        right: -60px;
+    }
+    .add6::after{
+        right: -60px 
+    } 
+    .add8::before{
+        width: 60px;
+        right: -60px;
+    }
+    .add8::after{
+        right: -60px 
     }
     .add9::before{
-        width: 125px;
-        left: -125px;
+        width: 80px;
+        left: -80px;
     }
     .add9::after{
-        width: 20px;
-        left: -130px;
+        left: -80px;
     }
     .add10::before{
-        width: 105px;
-        right: -105px;
+        width: 85px;
+        right: -85px;
     }
     .add10::after{
-        width: 20px;
-        right: -125px;
-  
+        right: -85px;
     }
     .btn-add{
         transform: translate(0px, 40px);
+    }
+    .add-category .center-category{
+        width: 400px;
+        height: 550px;
+    
     }
 
 
@@ -774,31 +842,61 @@ div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){
     }
     .add-category .right-category{
 
-        transform: translateX(35px);     
+        transform: translateX(40px);     
     }
     .add-category .center-category{
-        transform: translateX(30px);
+        transform: translateX(10px);
     }
     .add-left,.add-right{
-        width: 12rem;
-        height: 5rem;
+        width: 12rem !important;
+        height: 5rem !important;
     }
     .add9::before{
-        width: 115px;
-        left: -115px;
+        width: 75px;
+        left: -75px;
     }
     .add9::after{
         width: 20px;
-        left: -115px;
+        left: -75px;
+    }
+
+    .add2::before{
+        width: 85px;
+        right: -85px;
+    }
+    .add2::after{
+        right: -85px;
+    }
+    .add4::before{
+        width: 60px;
+        right: -60px;
+    }
+    .add4::after{
+        right: -60px;
+    }
+    .add6::before{
+        width: 45px;
+        right: -45px;
+    }
+    .add6::after{
+        right: -45px;
+    }
+    .add8::before{
+        width: 45px;
+        right: -45px;
+    }
+    .add8::after{
+        right: -45px;
     }
     .add10::before{
-        width: 115px;
-        right: -115px;
+        width: 75px;
+        right: -75px;
     }
     .add10::after{
-        width: 20px;
-        right: -115px;
-  
+        right: -75px;
+    }
+    .attachments{
+        grid-template-columns: repeat(2,1fr);
     }
 
 }
@@ -814,25 +912,22 @@ div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){
         left: -105px;   
     }
     .add9::before{
-        width: 110px;
-        left: -110px;
+        width: 70px;
+        left: -70px;
     }
     .add9::after{
-        width: 20px;
-        left: -110px;
+        left: -70px;
     }
     .add10::before{
-        width: 105px;
-        right: -105px;
+        width: 70px;
+        right: -70px;
     }
     .add10::after{
-        width: 20px;
-        right: -120px;
-  
+        right: -70px;
     }
     .add-left,.add-right{
-        width: 11rem;
-        height: 5rem;
+        width: 11rem !important;
+        height: 5rem !important;
     }
 
 

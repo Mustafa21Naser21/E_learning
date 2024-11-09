@@ -7,7 +7,7 @@ export default function AddCategoryEditor() {
 
   function addCategory(){
     Swal.fire({
-      position: "top-center",
+      position: "center",
       icon: "success",
       title: "تم  اضافة الفئة بنجاح",
       showConfirmButton: false,
@@ -38,7 +38,9 @@ export default function AddCategoryEditor() {
             </form>
 
             <div className="btn-add-category">
-            <button onClick={addCategory}  className="w-60 h-14  mb-10 mt-10 bg-header border-2 border-gray-400 text-white text-4xl px-4 py-2 rounded-lg"> <Link to='/categoryeditor'>اضافة فئة</Link><i className="fa-solid fa-check  border-2 border-white w-8 h-8 rounded-full text-xl "></i></button>
+            <button onClick={addCategory}  className="w-60 h-14  mb-10 mt-10 bg-header border-2 border-gray-400 text-white text-4xl px-4 py-2 rounded-lg hover:opacity-90 transition-opacity"> 
+              <Link to='/categoryeditor'>اضافة فئة</Link><i className="fa-solid fa-check  border-2 border-white w-8 h-8 rounded-full text-xl "></i>
+              </button>
             </div>
 
         </div>

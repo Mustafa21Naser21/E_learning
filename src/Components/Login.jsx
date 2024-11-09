@@ -5,8 +5,8 @@ import HeaderLogin from "./HeaderLogin";
 
 export default function Login() {
 
- function login(e){
-  e.preventDefault();
+ function login(){
+
 
   Swal.fire({
     title:"تم تسجيل الدخول بنجاح",
@@ -23,7 +23,7 @@ export default function Login() {
     <HeaderLogin />
 
     <section className="flex justify-center ">
-        <div style={{width:'500px',height:'500px',}} className="form bg-white border-2 border-slate-400 rounded-lg p-10 mt-40 mb-20  ">
+        <div style={{width:'500px',height:'500px',}} className="form bg-white border-2 border-slate-400 rounded-lg p-10 mt-40 mb-20   ">
 
             <div className="form-logo  px-10 text-center">
                 <img className="w-28 mr-28" src="/src/images/mutah.png" alt="" />

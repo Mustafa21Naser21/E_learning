@@ -18,7 +18,7 @@ export default function SectionPhotos() {
                   clickable: true,
                 }}
                 autoplay={{
-                  delay: 4000,
+                  delay: 3000,
                   disableOnInteraction: false,
                 }}
                 navigation={true}
@@ -27,22 +27,24 @@ export default function SectionPhotos() {
         >
 
           <SwiperSlide>
-          <img style={{height:'85vh'}}  className="w-full" src="/src/images/slideimg1.jfif" alt="" />
+          <img style={{height:'80vh'}}  className="w-full" src="/src/images/slideimg1.jfif" alt="" />
           </SwiperSlide>
 
           <SwiperSlide>
-          <img style={{height:'85vh'}}  className="w-full" src="/src/images/slideimg2.jfif" alt="" />
+          <img style={{height:'80vh'}}  className="w-full" src="/src/images/slideimg2.jfif" alt="" />
           </SwiperSlide>
 
           <SwiperSlide>
-          <img style={{height:'85vh'}}  className="w-full" src="/src/images/slideimg3.jfif" alt="" />
+          <img style={{height:'80vh'}}  className="w-full" src="/src/images/slideimg3.jfif" alt="" />
           </SwiperSlide>
 
           <SwiperSlide>
-          <img style={{height:'85vh'}}  className="w-full" src="/src/images/slideimg4.jfif" alt="" />
+          <img style={{height:'80vh'}}  className="w-full" src="/src/images/slideimg4.jfif" alt="" />
           </SwiperSlide>
 
         </Swiper>
+
+        
 
 
       
