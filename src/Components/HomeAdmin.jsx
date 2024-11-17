@@ -1,25 +1,39 @@
 import Header from "./Header";
 import Footer from "./Footer";
 import SectionPhotosAdmin from "./SectionPhotosAdmin";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 
 function getCategoryClass(index) {
-  const classIndex = (index % 10) + 1; // For class styling, from add1 to add10
+  const classIndex = (index % 10) + 1; 
   return `add${classIndex}`;
 }
 
 export default function HomeAdmin({ categories, setCategories, setCurrentCategory }) {
+  const navigate = useNavigate();
+
   function handleCategoryClick(category) {
     setCurrentCategory(category);
     localStorage.setItem("currentCategory", JSON.stringify(category));
+  }
+
+  function handleEditCategory(event, category, index) {
+    event.stopPropagation(); 
+    navigate('/addcategory', {
+      state: {
+        isEdit: true,
+        categoryTitle: category.title,
+        categoryDescription: category.description,
+        index: index
+      }
+    });
   }
 
   function deleteCategory(event, index) {
     event.stopPropagation();
     Swal.fire({
       title: "تنبيه",
-      text: "سوف يتم حذف جميع المرفقات الخاصة في الفئة عند حذفها",
+      text: "سوف يتم حذف جميع البنود الخاصة في الفئة عند حذفها",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -28,8 +42,11 @@ export default function HomeAdmin({ categories, setCategories, setCurrentCategor
       cancelButtonText: "تراجع"
     }).then((result) => {
       if (result.isConfirmed) {
-        const updatedCategories = categories.filter((_, catIndex) => catIndex !== index);
-        setCategories(updatedCategories);
+        setCategories((prevCategories) => {
+          const updatedCategories = prevCategories.filter((_, catIndex) => catIndex !== index);
+          return updatedCategories;
+        });
+  
         Swal.fire({
           title: "تم حذف الفئة بنجاح",
           icon: "success"
@@ -37,14 +54,32 @@ export default function HomeAdmin({ categories, setCategories, setCurrentCategor
       }
     });
   }
+
+  function limitCategory(event) {
+    if (categories.length >=10) {
+      event.preventDefault();
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "لا يمكن إضافة أكثر من 10 فئات",
+        showConfirmButton: true,
+      });
+    }
+    else {
+      navigate("/addcategory");
+    }
+  }
+  
+  
+
   return (
     <>
       <Header />
       <SectionPhotosAdmin />
       <section>
         <div className="flex justify-center mt-10">
-          <button className="btn-add w-40 h-16 bg-header text-white text-3xl rounded-lg hover:opacity-90 transition-opacity">
-            <Link to='/addcategory'>إضافة فئة</Link>
+          <button onClick={(event) => limitCategory(event)} className="btn-add w-40 h-16 bg-header text-white text-3xl rounded-lg hover:opacity-90 transition-opacity">
+             اضافة فئة
           </button>
         </div>
         <div className="add-category mt-4 flex justify-between">
@@ -59,9 +94,8 @@ export default function HomeAdmin({ categories, setCategories, setCurrentCategor
                   <Link to='/categorytitleadmin' state={{ title: category.title, description: category.description }}>
                     {category.title}
                   </Link>
-                  <Link to='/addcategory' state={{ categoryTitle: category.title, categoryDescription: category.description, index }}>
-                    <i className="fa-solid fa-pen-to-square modify-icon cursor-pointer" />
-                  </Link>
+                  <i onClick={(event) => handleEditCategory(event, category, index)}
+                     className="fa-solid fa-pen-to-square modify-icon cursor-pointer" />
                 </div>
               )
             ))}
@@ -87,9 +121,8 @@ export default function HomeAdmin({ categories, setCategories, setCurrentCategor
                   <Link to='/categorytitleadmin' state={{ title: category.title, description: category.description }}>
                     {category.title}
                   </Link>
-                  <Link to='/addcategory' state={{ categoryTitle: category.title, categoryDescription: category.description, index }}>
-                    <i className="fa-solid fa-pen-to-square modify-icon cursor-pointer" />
-                  </Link>
+                  <i onClick={(event) => handleEditCategory(event, category, index)}
+                     className="fa-solid fa-pen-to-square modify-icon cursor-pointer" />
                 </div>
               )
             ))}

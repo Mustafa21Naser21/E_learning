@@ -3,89 +3,85 @@ import Swal from 'sweetalert2';
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
-export default function AddCategory({ categories=[] , setCategories }) {
+export default function AddCategory({ categories = [], setCategories }) {
   const [categoryTitle, setCategoryTitle] = useState("");
   const [categoryDescription, setCategoryDescription] = useState("");
   const [categoryIndex, setCategoryIndex] = useState(null); // To determine the index of the category being edited
   const navigate = useNavigate();
   const location = useLocation();
 
-  // If there's a category to edit, populate the fields with the existing data
+  // Extract state from location
+  const { isEdit, categoryTitle: initialTitle, categoryDescription: initialDescription, index } = location.state || {};
+
   useEffect(() => {
-    if (location.state) {
-      const { categoryTitle, categoryDescription, index } = location.state;
-      setCategoryTitle(categoryTitle || ""); // Fill category title
-      setCategoryDescription(categoryDescription || ""); // Fill category description
+    if (isEdit) {
+      setCategoryTitle(initialTitle || ""); // Fill category title
+      setCategoryDescription(initialDescription || ""); // Fill category description
       setCategoryIndex(index); // Save the index for editing
     }
-  }, [location.state]);
-  
+  }, [isEdit, initialTitle, initialDescription, index]);
+
   function handleSaveCategory(e) {
     e.preventDefault();
   
-    // تحقق من إدخال العنوان
-    if (!categoryTitle.trim()) {
+    if (categoryTitle.trim() === "" || categoryDescription.trim() === "") {
       Swal.fire({
+        position: "center",
         icon: "error",
-        title: "خطأ",
-        text: "يرجى إدخال عنوان الفئة!",
+        title: "يرجى إدخال عنوان الفئة ووصفها",
+        showConfirmButton: true
       });
       return;
     }
   
-    // تحقق إذا كانت الفئة جديدة أو تعديل فئة موجودة
-    if (categoryIndex !== null) {
-      // تعديل فئة موجودة
-      const updatedCategories = categories.map((category, index) => {
-        if (index === categoryIndex) {
-          // إذا كانت هذه هي الفئة المعدلة، نقوم بتحديثها
-          return { title: categoryTitle, description: categoryDescription };
-        }
-        // إذا كانت الفئة غير الفئة المعدلة، نعيدها كما هي
-        return category;
+    // تحقق إذا كانت الفئات تجاوزت الحد الأقصى
+    if (!isEdit && categories.length >= 3) {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "لا يمكن إضافة أكثر من 10 فئات!",
+        showConfirmButton: true
       });
+      return;
+    }
   
-      // تأكد من عدم حذف الفئات الأخرى في حالة تعديل فئة
-     console.log("قبل التعديل:", categories);
-setCategories(updatedCategories); // تحديث الفئات
-console.log("بعد التعديل:", updatedCategories);
- // تحديث الفئات بعد تعديل الفئة
+    const newCategory = {
+      title: categoryTitle,
+      description: categoryDescription,
+    };
+  
+    if (isEdit) {
+      // تعديل فئة موجودة
+      setCategories((prevCategories) => {
+        return prevCategories.map((category, idx) =>
+          idx === categoryIndex ? newCategory : category
+        );
+      });
   
       Swal.fire({
         position: "center",
         icon: "success",
         title: "تم تعديل الفئة بنجاح",
         showConfirmButton: false,
-        timer: 2000,
+        timer: 2000
       }).then(() => {
-        navigate("/homeadmin"); // إعادة التوجيه بعد التعديل
+        navigate('/homeadmin');
       });
     } else {
       // إضافة فئة جديدة
-      const newCategory = { title: categoryTitle, description: categoryDescription };
-  
-      // إضافة الفئة الجديدة إلى المصفوفة السابقة دون التأثير على الفئات القديمة
-      setCategories((prevCategories) => {
-        // إضافة الفئة الجديدة دون مسح الفئات القديمة
-        return [...prevCategories, newCategory];
-      });
+      setCategories((prevCategories) => [...prevCategories, newCategory]);
   
       Swal.fire({
         position: "center",
         icon: "success",
         title: "تمت إضافة الفئة بنجاح",
         showConfirmButton: false,
-        timer: 2000,
+        timer: 2000
       }).then(() => {
-        navigate("/homeadmin"); // إعادة التوجيه بعد الإضافة
+        navigate('/homeadmin');
       });
     }
   }
-  
-  
-  
-  
-  
   
 
   return (
@@ -114,8 +110,8 @@ console.log("بعد التعديل:", updatedCategories);
           />
         </div>
         <div className="btn-add-category mt-10">
-          <button onClick={handleSaveCategory}  className="w-60 h-14 bg-header text-white text-4xl px-4 py-2 rounded-lg hover:opacity-90 transition-opacity">
-            {categoryIndex !== null ? "تعديل الفئة" : "إضافة فئة"} {/* Change text based on action */}
+          <button onClick={handleSaveCategory} className="w-60 h-14 bg-header text-white text-4xl px-4 py-2 rounded-lg hover:opacity-90 transition-opacity">
+            {categoryIndex !== null ? "تعديل الفئة" : "إضافة فئة"}
             <i className="fa-solid fa-check border-2 border-white w-8 h-8 rounded-full text-xl "/>
           </button>
         </div>
@@ -123,7 +119,3 @@ console.log("بعد التعديل:", updatedCategories);
     </>
   );
 }
-
-
-/*             value={categoryTitle}
-            onChange={(e) => setCategoryTitle(e.target.value)} */

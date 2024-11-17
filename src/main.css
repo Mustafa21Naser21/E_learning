@@ -6,6 +6,9 @@
 
 html{
    direction: rtl; 
+   min-width: 650px;
+   min-height: 600px; 
+   overflow: auto;
 }
 :root{
 
@@ -28,6 +31,9 @@ html{
 body{
     font-family:"Cairo", sans-serif;
     background-color: #eee;
+    min-width: 650px; 
+    min-height: 600px; 
+    overflow: auto;
     
 }
 
@@ -50,6 +56,12 @@ opacity: 0.7;
     border-bottom: solid transparent 5px;
     border-radius: 50%;
     outline: none;
+}
+textarea{
+    resize: none;
+    width: 100%;
+    height: 150px;
+    overflow: auto;
 }
 .add1,.add2{
     background-color: var(--greenYellow);
@@ -439,6 +451,12 @@ div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){
     top:35%;
     z-index: 30;
 }
+.add-user .change-picture{
+    position: absolute;
+    left: 57%;
+    top:22%;
+    z-index: 30;
+}
 .profile-viewer .fa-pen{
    background-color: gray;
     width: 20px;
@@ -475,7 +493,7 @@ div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){
 .change-password{
     position: absolute;
     z-index: 30;
-    width: 500px;
+    width: 400px;
     height: 350px;
     top: 20%;
     left: 50%;
@@ -494,7 +512,7 @@ div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){
 .add-user{
     position: absolute;
     z-index: 40;
-    width: 600px;
+    width: 650px;
     height: 500px;
     top: 20%;
     left: 50%;

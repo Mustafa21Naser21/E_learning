@@ -118,40 +118,60 @@ export default function Header() {
         </div>
       </div>
 
-      <div className="change-password bg-white hidden">
+      <div className="change-password  bg-white hidden">
         <form className="relative" action="">
           <i onClick={hidddenPassword} className="fa-solid fa-xmark text-gray-400" />
           <input
             placeholder="كلة السر القديمة"
-            className="w-72 h-12 p-4 mt-12 border border-input outline-slate-400 rounded-lg"
+            className="w-72 h-12  mr-12 p-4 mt-12 border border-input outline-slate-400 rounded-lg"
             type="text"
           />
           <input
             placeholder="كلة السر الجديدة"
-            className="w-72 h-12 p-4 mt-8 border border-input outline-slate-400 rounded-lg"
+            className="w-72 h-12 mr-12 p-4 mt-8 border border-input outline-slate-400 rounded-lg"
             type="text"
           />
           <input
             placeholder="تأكيد كلمة السر الجديدة"
-            className="w-72 h-12 p-4 mt-8 border border-input outline-slate-400 rounded-lg"
+            className="w-72 h-12 mr-12 p-4 mt-8 border border-input outline-slate-400 rounded-lg"
             type="text"
           />
-          <button className="w-28 h-12 bg-header p-2 text-center text-xl text-white rounded-md mt-6 hover:opacity-90 transition-opacity">
+          <button style={{marginRight:'35%'}} className="w-28 h-12 bg-header p-2 text-center text-xl text-white rounded-md mt-6 hover:opacity-90 transition-opacity">
             تأكيد
           </button>
         </form>
       </div>
 
       <div className="add-user bg-white hidden">
+      <div className="change-picture">
+               <label className="cursor-pointer absolute bottom-1 right-1 p-2 rounded-full">
+          <i title="اضافة صورة شخصية" className="fa-solid fa-pen " />
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleProfileImageChange}
+              style={{ display: "none" }}
+            />
+          </label>
+        </div>
+       
+      <div style={{ marginRight: "42%" }} className="relative w-24 h-24 text-center border-2 border-gray-400 rounded-full mt-6 overflow-hidden">
+          {profileImage ? (
+            <img src={profileImage} alt="Profile" className="w-full h-full object-cover" />
+          ) : (
+            <i style={{ marginTop: "27px" }} className="fa-regular fa-user text-gray-400 text-7xl"></i>
+          )}
+          
+        </div>
         <form className="grid grid-cols-2 relative" action="">
           <i onClick={hiddenUser} className="fa-solid fa-xmark text-gray-400" />
           <input
             placeholder="الاسم الاول"
-            className="w-72 h-12 p-4 mt-10 border border-input outline-slate-400 rounded-lg"
+            className="w-72 h-12 p-4 mr-4 mt-10 border border-input outline-slate-400 rounded-lg"
             type="text"
           />
           <select
-            className="w-72 h-12 px-4 mt-10 border border-input text-gray-400 outline-slate-400 rounded-lg"
+            className="w-72 h-12 px-4 mr-4 mt-10 border border-input text-gray-400 outline-slate-400 rounded-lg"
           >
             <option value="مشرف">مشرف</option>
             <option value="محرر">محرر</option>
@@ -159,25 +179,25 @@ export default function Header() {
           </select>
           <input
             placeholder=" الاسم الاخير"
-            className="w-72 h-12 p-4 mt-8 border border-input outline-slate-400 rounded-lg"
+            className="w-72 h-12 p-4 mr-4 mt-8 border border-input outline-slate-400 rounded-lg"
             type="text"
           />
           <input
             placeholder="  كلمة السر"
-            className="w-72 h-12 p-4 mt-8 border border-input outline-slate-400 rounded-lg"
+            className="w-72 h-12 p-4 mr-4 mt-8 border border-input outline-slate-400 rounded-lg"
             type="text"
           />
           <input
             placeholder=" اسم المستخدم"
-            className="w-72 h-12 p-4 mt-8 border border-input outline-slate-400 rounded-lg"
+            className="w-72 h-12 p-4 mr-4 mt-8 border border-input outline-slate-400 rounded-lg"
             type="text"
           />
           <input
             placeholder="   تأكيد كلمة السر"
-            className="w-72 h-12 p-4 mt-8 border border-input outline-slate-400 rounded-lg"
+            className="w-72 h-12 p-4 mr-4 mt-8 border border-input outline-slate-400 rounded-lg"
             type="text"
           />
-          <button className="w-32 h-12 bg-header mt-12 p-2 text-center text-white rounded-md hover:opacity-90 transition-opacity">
+          <button style={{marginRight:'80%'}} className="w-32 h-12 bg-header mt-12 p-2 text-center text-white rounded-md hover:opacity-90 transition-opacity">
             اضافة مستخدم جديد
           </button>
         </form>

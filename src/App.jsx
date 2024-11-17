@@ -40,19 +40,21 @@ function App() {
     setCategories((prevCategories) => {
       const updatedCategories = prevCategories.map((category) =>
         category.title === currentCategory.title
-          ? { ...category, terms: [...category.terms, newTerm] }
+          ? { ...category, terms: [...(category.terms || []), newTerm] }
           : category
       );
-
-      // تحديث `currentCategory` بعد إضافة البند
+  
       const updatedCategory = updatedCategories.find(
         (category) => category.title === currentCategory.title
       );
-      setCurrentCategory(updatedCategory);
-
+  
+      // ضمان عدم وجود خصائص مفقودة في `currentCategory`
+      setCurrentCategory({ ...updatedCategory, terms: updatedCategory.terms || [] });
+  
       return updatedCategories;
     });
-  }
+  };
+  
 
 
   return (

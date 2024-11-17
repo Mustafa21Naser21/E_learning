@@ -72,7 +72,14 @@ export default function AddTerm({ addTerm, currentCategory, setCurrentCategory }
         showConfirmButton: false,
         timer: 2000
       }).then(() => {
-        navigate('/categorytitleadmin');
+        navigate('/categorytitleadmin', {
+          state: {
+            title: currentCategory.title,
+            description: currentCategory.description,
+            terms: currentCategory.terms
+          }
+        });
+        
       });
     }
   }
@@ -180,7 +187,7 @@ export default function AddTerm({ addTerm, currentCategory, setCurrentCategory }
 
             <div className="btn-add-term">
               <button type="submit" className="w-60 h-14 mb-10 mt-10 bg-header border-2 border-gray-400 text-white text-4xl px-4 py-2 rounded-lg">
-                اضافة بند
+              {isEdit ?"تعديل البند" : "اضافة البند"} 
                 <i className="fa-solid fa-check border-2 border-white w-8 h-8 rounded-full text-xl "></i>
               </button>
             </div>

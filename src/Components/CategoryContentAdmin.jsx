@@ -1,40 +1,42 @@
+// Header and Footer Components
 import Header from './Header';
 import Swal from 'sweetalert2';
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
 
-// دالة للحصول على كلاس النمط الأساسي term-down أو term-up
+// Helper function to determine term class
 function getTermClass(index) {
-  const cycle = Math.floor(index / 3) % 2; // يحدد النمط الأساسي لكل مجموعة من 3 بنود
-  const baseClass = cycle === 0 ? 'term-down' : 'term-up';
-
-   // من term1 إلى term6 بناءً على الفهرس
-
-  return `${baseClass}`;
+  const cycle = Math.floor(index / 3) % 2; // Alternates styles between groups of 3
+  return cycle === 0 ? 'term-down' : 'term-up';
 }
 
-export default function CategoryContentAdmin({ currentCategory, setCurrentCategory, setCategories }) {
-  const location = useLocation();
+export default function CategoryContentAdmin({ currentCategory = { terms: [] }, setCurrentCategory, setCategories }) {
   const navigate = useNavigate();
-  const { termTitle, termContent, termDescription, } = location.state || {};
+  const location = useLocation();
 
-  const [category, setCategory] = useState(currentCategory || { title: "", content: "", description: "", terms: [] });
+  const [category, setCategory] = useState({ ...currentCategory, terms: currentCategory?.terms || [] });
 
+  const { termTitle, termContent, termDescription } = location.state || {};
+
+  // Effect to handle adding a new term from AddTerm
   useEffect(() => {
     if (termTitle && termContent && termDescription) {
       const newTerm = { title: termTitle, content: termContent, description: termDescription };
-      
-      // تحقق من عدم وجود البند مسبقًا لتجنب التكرار
+
+      // Avoid duplicate terms
       if (!category.terms.some(term => term.title === newTerm.title)) {
         const updatedCategory = { ...category, terms: [...category.terms, newTerm] };
         setCategory(updatedCategory);
         setCurrentCategory(updatedCategory);
-        setCategories(prevCategories => 
-          prevCategories.map(cat => cat.title === updatedCategory.title ? updatedCategory : cat)
-        );
+        setCategories(prev => prev.map(cat => (cat.title === updatedCategory.title ? updatedCategory : cat)));
       }
     }
   }, [termTitle, termContent, termDescription]);
+
+  // Effect to sync `currentCategory` with local state
+  useEffect(() => {
+    setCategory(prev => ({ ...currentCategory, terms: currentCategory?.terms || prev.terms }));
+  }, [currentCategory]);
 
   function handleTermClick(term) {
     navigate('/termcontent', {
@@ -45,14 +47,13 @@ export default function CategoryContentAdmin({ currentCategory, setCurrentCatego
         attachments: term.attachments || []
       }
     });
-    
   }
 
   function handleEditTerm(event, term) {
-    event.stopPropagation(); // منع تفعيل `handleTermClick`
+    event.stopPropagation(); // Prevent triggering handleTermClick
     navigate('/addterm', {
       state: {
-        isEdit: true, // تحديد أن العملية هي تعديل
+        isEdit: true,
         termTitle: term.title,
         termContent: term.content,
         termDescription: term.description,
@@ -61,13 +62,12 @@ export default function CategoryContentAdmin({ currentCategory, setCurrentCatego
       }
     });
   }
-  
 
   function deleteTerm(event, termIndex) {
     event.stopPropagation();
     Swal.fire({
       title: "تنبيه",
-      text: "سوف يتم حذف البند المحدد",
+      text: " سوف يتم حذف جميع المرفقات الخاصة في البند عند حذفها",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -81,10 +81,7 @@ export default function CategoryContentAdmin({ currentCategory, setCurrentCatego
 
         setCategory(updatedCategory);
         setCurrentCategory(updatedCategory);
-
-        setCategories(prevCategories => 
-          prevCategories.map(cat => cat.title === updatedCategory.title ? updatedCategory : cat)
-        );
+        setCategories(prev => prev.map(cat => (cat.title === updatedCategory.title ? updatedCategory : cat)));
 
         Swal.fire({
           title: "تم حذف البند بنجاح",
@@ -118,103 +115,104 @@ export default function CategoryContentAdmin({ currentCategory, setCurrentCatego
           </div>
 
           <div className="terms mt-10 mb-10 space-y-10">
-  {Array.from({ length: Math.ceil(category.terms.length / 3) }).map((_, rowIndex) => {
-    
-    const rowItems = category.terms.slice(rowIndex * 3, rowIndex * 3 + 3);
+            {Array.from({ length: Math.ceil((category.terms || []).length / 3) }).map((_, rowIndex) => {
+              const rowItems = category.terms.slice(rowIndex * 3, rowIndex * 3 + 3);
 
-    const rowClassName =
-      rowItems.length === 1
-        ? "flex justify-center"
-        : rowItems.length === 2
-        ? "flex justify-around"
-        : "grid grid-cols-3 justify-items-center";
+              const rowClassName =
+                rowItems.length === 1
+                  ? "flex justify-center"
+                  : rowItems.length === 2
+                  ? "flex justify-around"
+                  : "grid grid-cols-3 justify-items-center";
 
-    return (
-      <div key={rowIndex} className={`${rowClassName} w-full`}>
-{rowItems.map((term, index) => {
-  const termClass = getTermClass(rowIndex * 3 + index);
-  const isTermUp = termClass.includes('term-up'); // تحقق إذا كان هذا من نوع term-up
-  const isTermDown = termClass.includes('term-down'); // تحقق إذا كان من نوع term-down
+              return (
+                <div key={rowIndex} className={`${rowClassName} w-full`}>
+                  {rowItems.map((term, index) => {
+                    const termClass = getTermClass(rowIndex * 3 + index);
+                    const isTermUp = termClass.includes('term-up');
+                    const isTermDown = termClass.includes('term-down');
 
-  return (
-    <div
-      key={index}
-      className={`${termClass} mt-20 w-60 h-60 cursor-pointer relative`}
-      onClick={() => handleTermClick(term)}
-      style={{
-        backgroundColor: term.color || "#000", 
-      }}
-    >
-      
-      {isTermDown && (
-        <>
-          <div className="flex justify-between header-term">
-            <div className="icon-term text-white mt-2 mr-2">
-              <i
-                onClick={(event) => deleteTerm(event, rowIndex * 3 + index)}
-                className="fa-solid fa-trash cursor-pointer ml-4"
-              /> 
-               <i onClick={(event) => handleEditTerm(event, term)} className="fa-solid fa-pen-to-square cursor-pointer"/>
-            </div>
-            <div className="number-term w-8 h-8 py-2 text-center text-white bg-black opacity-70">
-              {rowIndex * 3 + index + 1}
-            </div>
-          </div>
-          <h2 className="text-center text-white mt-6 h-44 text-xl px-2 term-title">
-            {term.title}
-          </h2>
-        </>
-      )}
+                    return (
+                      <div
+                        key={index}
+                        className={`${termClass} mt-20 w-60 h-60 cursor-pointer relative`}
+                        onClick={() => handleTermClick(term)}
+                        style={{
+                          backgroundColor: term.color || "#000",
+                        }}
+                      >
+                        {isTermDown && (
+                          <>
+                            <div className="flex justify-between header-term">
+                              <div className="icon-term text-white mt-2 mr-2">
+                                <i
+                                  onClick={(event) => deleteTerm(event, rowIndex * 3 + index)}
+                                  className="fa-solid fa-trash cursor-pointer ml-4"
+                                />
+                                <i
+                                  onClick={(event) => handleEditTerm(event, term)}
+                                  className="fa-solid fa-pen-to-square cursor-pointer"
+                                />
+                              </div>
+                              <div className="number-term w-8 h-8 py-2 text-center text-white bg-black opacity-70">
+                                {rowIndex * 3 + index + 1}
+                              </div>
+                            </div>
+                            <h2 className="text-center text-white mt-6 h-44 text-xl px-2 term-title">
+                              {term.title}
+                            </h2>
+                          </>
+                        )}
 
-      {isTermUp && (
-        <>
-          <h2 className="text-center text-white mt-6 h-44 text-xl px-2 term-title">
-            {term.title}
-          </h2>
-          <div className="flex justify-between header-term">
-            <div className="icon-term text-white mt-2 mr-2">
-              <i
-                onClick={(event) => deleteTerm(event, rowIndex * 3 + index)}
-                className="fa-solid fa-trash cursor-pointer ml-4"
-              />
-            <i onClick={(event) => handleEditTerm(event, term)} className="fa-solid fa-pen-to-square cursor-pointer"/>
+                        {isTermUp && (
+                          <>
+                            <h2 className="text-center text-white mt-6 h-44 text-xl px-2 term-title">
+                              {term.title}
+                            </h2>
+                            <div className="flex justify-between header-term">
+                              <div className="icon-term text-white mt-2 mr-2">
+                                <i
+                                  onClick={(event) => deleteTerm(event, rowIndex * 3 + index)}
+                                  className="fa-solid fa-trash cursor-pointer ml-4"
+                                />
+                                <i
+                                  onClick={(event) => handleEditTerm(event, term)}
+                                  className="fa-solid fa-pen-to-square cursor-pointer"
+                                />
+                              </div>
+                              <div className="number-term w-8 h-8 py-2 mt-2 text-center text-white bg-black opacity-70">
+                                {rowIndex * 3 + index + 1}
+                              </div>
+                            </div>
+                          </>
+                        )}
 
-            </div>
-            <div className="number-term w-8 h-8 py-2 mt-2 text-center text-white bg-black opacity-70">
-              {rowIndex * 3 + index + 1}
-            </div>
-          </div>
-        </>
-      )}
-
-      <div
-        className="term-border"
-        style={{
-          position: "absolute",
-          top: isTermDown ? `100%` : "-50%",
-          width: 0,
-          height: 0,
-          borderLeft: "120px solid transparent",
-          borderRight: "120px solid transparent",
-          borderTop: isTermDown ? `120px solid ${term.color}` : "none", // إذا كان `term-down` استخدم border-top
-          borderBottom: isTermUp ? `120px solid ${term.color}` : "none", // إذا كان `term-up` استخدم border-bottom
-          opacity: 0.8,
-        }}
-      />
-    </div>
-  );
-})}
-
-
-</div>
-    );
-  })}
-
-
-</div>
-        
-        </div>
-
+                        <div
+                          className="term-border"
+                          style={{
+                            position: "absolute",
+                            top: isTermDown ? `100%` : "-50%",
+                            width: 0,
+                            height: 0,
+                            borderLeft: "120px solid transparent",
+                            borderRight: "120px solid transparent",
+                            borderTop: isTermDown ? `120px solid ${term.color}` : "none",
+                            borderBottom: isTermUp ? `120px solid ${term.color}` : "none",
+                            opacity: 0.8,
+                          }}
+                          />
+                          </div>
+                        );
+                      })}
+                      
+                      
+                      </div>
+                          );
+                        })}
+                      
+                      
+                      </div>     
+          </div>   
       </section>
     </>
   );
