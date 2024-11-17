@@ -3,9 +3,19 @@ import { useLocation } from "react-router-dom";
 
 export default function TermContent() {
   const location = useLocation();
+
+  // اجلب القيم من state
   const { termTitle, termContent, termDescription, attachments } = location.state || {};
 
-  console.log("Attachments in TermContent:", attachments);
+  console.log("Received state in TermContent:", { termTitle, termContent, termDescription, attachments });
+
+  if (!termTitle || !termContent || !termDescription) {
+    return (
+      <div className="text-center mt-10">
+        <h1 className="text-4xl font-bold">لا توجد بيانات لعرضها</h1>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -23,15 +33,39 @@ export default function TermContent() {
             </div>
           </div>
 
-          {attachments && attachments.length > 0 && (
-            <div className="attachments mt-10 mb-10 grid grid-cols-3 gap-y-10 gap-x-4 justify-items-center max-sm:grid-cols-1">
+          {/* عرض المرفقات */}
+          {attachments && attachments.length > 0 ? (
+        <div
+        className={`attachments mt-10 mb-10 grid gap-y-10 gap-x-4 place-items-center max-sm:grid-cols-1`}
+        style={{
+          gridTemplateColumns: attachments.length % 3 === 1 ? "repeat(3, 1fr)" : "repeat(auto-fit, minmax(200px, 1fr))",
+        }}
+      >
               {attachments.map((attachment, index) => (
-                <div key={index} className="attached mt-20 w-52 h-52 text-center bg-orange text-white p-4 rounded-2xl">
-                  <h1 className="attached-text text-2xl">
-                    <a href={attachment.url} target="_blank" rel="noopener noreferrer">{attachment.name}</a>
-                  </h1>
+                <div
+                key={index}
+                className={`attached mt-20 w-52 h-52 text-center text-white p-4 rounded-2xl ${
+                  index % 2 === 0 ? "bg-orange" : "bg-move"
+                } ${
+                  // Center the attachment if it's the only item in the row
+                  attachments.length % 3 === 1 && index === attachments.length - 1 ? "col-span-3 justify-self-center" : ""
+                }`}
+              >
+                  <a
+                    href={attachment.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white underline"
+                    style={{textDecoration:'none'}}
+                  >
+                    <h1 className="attached-text text-2xl mb-2">{attachment.name}</h1>
+                  </a>
                 </div>
               ))}
+            </div>
+          ) : (
+            <div className="text-center mt-10">
+              <h1 className="text-2xl font-bold">لا توجد مرفقات</h1>
             </div>
           )}
         </div>

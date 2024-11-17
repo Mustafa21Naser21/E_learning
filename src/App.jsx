@@ -61,7 +61,7 @@ function App() {
     <Routes>
 
       <Route path='/' index element={<Login />}/>
-      <Route path="/addcategory" element={<AddCategory addCategory={addCategory} />} />
+      <Route path="/addcategory" element={<AddCategory addCategory={addCategory} setCategories={setCategories} />} />
       <Route path="/homeadmin" element={<HomeAdmin categories={categories} setCategories={setCategories} setCurrentCategory={setCurrentCategory}  />} /> 
       <Route path='/homeViewer' element={<HomeViewer />}/>
       <Route path='/homeEditor' element={<HomeEditor />}/>
