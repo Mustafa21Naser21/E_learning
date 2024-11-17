@@ -37,7 +37,6 @@ export default function HomeAdmin({ categories, setCategories, setCurrentCategor
       }
     });
   }
-git pull origin main
   return (
     <>
       <Header />
