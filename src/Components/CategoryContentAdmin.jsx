@@ -4,9 +4,9 @@ import Swal from 'sweetalert2';
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
 
-// Helper function to determine term class
+
 function getTermClass(index) {
-  const cycle = Math.floor(index / 3) % 2; // Alternates styles between groups of 3
+  const cycle = Math.floor(index / 3) % 2; 
   return cycle === 0 ? 'term-down' : 'term-up';
 }
 
@@ -17,13 +17,19 @@ export default function CategoryContentAdmin({ currentCategory = { terms: [] }, 
   const [category, setCategory] = useState({ ...currentCategory, terms: currentCategory?.terms || [] });
 
   const { termTitle, termContent, termDescription } = location.state || {};
-
-  // Effect to handle adding a new term from AddTerm
+  useEffect(() => {
+    const storedCategory = JSON.parse(localStorage.getItem(currentCategory.title));
+    if (storedCategory) {
+      setCategory(storedCategory); // تعيين الفئة مع البنود المخزنة
+      setCurrentCategory(storedCategory);
+    }
+  }, [currentCategory.title]);
+ 
   useEffect(() => {
     if (termTitle && termContent && termDescription) {
       const newTerm = { title: termTitle, content: termContent, description: termDescription };
 
-      // Avoid duplicate terms
+      
       if (!category.terms.some(term => term.title === newTerm.title)) {
         const updatedCategory = { ...category, terms: [...category.terms, newTerm] };
         setCategory(updatedCategory);
@@ -33,7 +39,7 @@ export default function CategoryContentAdmin({ currentCategory = { terms: [] }, 
     }
   }, [termTitle, termContent, termDescription]);
 
-  // Effect to sync `currentCategory` with local state
+  
   useEffect(() => {
     setCategory(prev => ({ ...currentCategory, terms: currentCategory?.terms || prev.terms }));
   }, [currentCategory]);
@@ -50,7 +56,7 @@ export default function CategoryContentAdmin({ currentCategory = { terms: [] }, 
   }
 
   function handleEditTerm(event, term) {
-    event.stopPropagation(); // Prevent triggering handleTermClick
+    event.stopPropagation(); 
     navigate('/addterm', {
       state: {
         isEdit: true,
@@ -94,6 +100,11 @@ export default function CategoryContentAdmin({ currentCategory = { terms: [] }, 
   return (
     <>
       <Header />
+
+      <div className="back-home ">
+      <Link to="/homeadmin"><i className="fa-solid fa-house text-3xl cursor-pointer text-header"/></Link>
+      </div>
+
       <section>
         <div className="category-content relative">
           <div className="mt-10 px-10">
@@ -115,103 +126,193 @@ export default function CategoryContentAdmin({ currentCategory = { terms: [] }, 
           </div>
 
           <div className="terms mt-10 mb-10 space-y-10">
-            {Array.from({ length: Math.ceil((category.terms || []).length / 3) }).map((_, rowIndex) => {
-              const rowItems = category.terms.slice(rowIndex * 3, rowIndex * 3 + 3);
+  {category.terms.length === 0 ? (
+    // إذا كانت قائمة البنود فارغة، نعرض رسالة "لا توجد بنود"
+    <div className=" text-center mt-20 mb-20 text-3xl text-black font-bold">
+      لا توجد بنود
+    </div>
+  ) : (
+    // إذا كانت هناك بنود، نقوم بعرضها بشكل عادي
+    Array.from({ length: Math.ceil(category.terms.length / 3) }).map((_, rowIndex) => {
+      const rowItems = category.terms.slice(rowIndex * 3, rowIndex * 3 + 3);
 
-              const rowClassName =
-                rowItems.length === 1
-                  ? "flex justify-center"
-                  : rowItems.length === 2
-                  ? "flex justify-around"
-                  : "grid grid-cols-3 justify-items-center";
+      const rowClassName =
+        rowItems.length === 1
+          ? "flex justify-center"
+          : rowItems.length === 2
+          ? "flex justify-around"
+          : "grid grid-cols-3 justify-items-center";
 
-              return (
-                <div key={rowIndex} className={`${rowClassName} w-full`}>
-                  {rowItems.map((term, index) => {
-                    const termClass = getTermClass(rowIndex * 3 + index);
-                    const isTermUp = termClass.includes('term-up');
-                    const isTermDown = termClass.includes('term-down');
+      return (
+        <div key={rowIndex} className={`${rowClassName} w-full`}>
+          {rowItems.map((term, index) => {
+            const termClass = getTermClass(rowIndex * 3 + index);
+            const isTermUp = termClass.includes('term-up');
+            const isTermDown = termClass.includes('term-down');
 
-                    return (
-                      <div
-                        key={index}
-                        className={`${termClass} mt-20 w-60 h-60 cursor-pointer relative`}
-                        onClick={() => handleTermClick(term)}
-                        style={{
-                          backgroundColor: term.color || "#000",
-                        }}
-                      >
-                        {isTermDown && (
-                          <>
-                            <div className="flex justify-between header-term">
-                              <div className="icon-term text-white mt-2 mr-2">
-                                <i
-                                  onClick={(event) => deleteTerm(event, rowIndex * 3 + index)}
-                                  className="fa-solid fa-trash cursor-pointer ml-4"
-                                />
-                                <i
-                                  onClick={(event) => handleEditTerm(event, term)}
-                                  className="fa-solid fa-pen-to-square cursor-pointer"
-                                />
-                              </div>
-                              <div className="number-term w-8 h-8 py-2 text-center text-white bg-black opacity-70">
-                                {rowIndex * 3 + index + 1}
-                              </div>
-                            </div>
-                            <h2 className="text-center text-white mt-6 h-44 text-xl px-2 term-title">
-                              {term.title}
-                            </h2>
-                          </>
-                        )}
-
-                        {isTermUp && (
-                          <>
-                            <h2 className="text-center text-white mt-6 h-44 text-xl px-2 term-title">
-                              {term.title}
-                            </h2>
-                            <div className="flex justify-between header-term">
-                              <div className="icon-term text-white mt-2 mr-2">
-                                <i
-                                  onClick={(event) => deleteTerm(event, rowIndex * 3 + index)}
-                                  className="fa-solid fa-trash cursor-pointer ml-4"
-                                />
-                                <i
-                                  onClick={(event) => handleEditTerm(event, term)}
-                                  className="fa-solid fa-pen-to-square cursor-pointer"
-                                />
-                              </div>
-                              <div className="number-term w-8 h-8 py-2 mt-2 text-center text-white bg-black opacity-70">
-                                {rowIndex * 3 + index + 1}
-                              </div>
-                            </div>
-                          </>
-                        )}
-
-                        <div
-                          className="term-border"
-                          style={{
-                            position: "absolute",
-                            top: isTermDown ? `100%` : "-50%",
-                            width: 0,
-                            height: 0,
-                            borderLeft: "120px solid transparent",
-                            borderRight: "120px solid transparent",
-                            borderTop: isTermDown ? `120px solid ${term.color}` : "none",
-                            borderBottom: isTermUp ? `120px solid ${term.color}` : "none",
-                            opacity: 0.8,
-                          }}
-                          />
-                          </div>
-                        );
-                      })}
-                      
-                      
+            return (
+              <div
+                key={index}
+                className={`${termClass} mt-20 w-60 h-60 cursor-pointer relative`}
+                onClick={() => handleTermClick(term)}
+                style={{
+                  backgroundColor: term.color || "#000",
+                }}
+              >
+                {isTermDown && (
+                  <>
+                    <div className="flex justify-between header-term">
+                      <div className="icon-term text-white mt-2 mr-2">
+                        <i
+                          onClick={(event) => deleteTerm(event, rowIndex * 3 + index)}
+                          className="fa-solid fa-trash cursor-pointer ml-4"
+                        />
+                        <i
+                          onClick={(event) => handleEditTerm(event, term)}
+                          className="fa-solid fa-pen-to-square cursor-pointer"
+                        />
                       </div>
-                          );
-                        })}
-                      
-                      
-                      </div>     
+                      <div className="number-term w-8 h-8 py-2 text-center text-white bg-black opacity-70">
+                        {rowIndex * 3 + index + 1}
+                      </div>
+                    </div>
+                    <h2 className="text-center text-white mt-6 h-44 text-xl px-2 term-title">
+                      {term.title}
+                    </h2>
+                  </>
+                )}
+
+                {isTermUp && (
+                  <>
+                    <h2 className="text-center text-white mt-6 h-44 text-xl px-2 term-title">
+                      {term.title}
+                    </h2>
+                    <div className="flex justify-between header-term">
+                      <div className="icon-term text-white mt-2 mr-2">
+                        <i
+                          onClick={(event) => deleteTerm(event, rowIndex * 3 + index)}
+                          className="fa-solid fa-trash cursor-pointer ml-4"
+                        />
+                        <i
+                          onClick={(event) => handleEditTerm(event, term)}
+                          className="fa-solid fa-pen-to-square cursor-pointer"
+                        />
+                      </div>
+                      <div className="number-term w-8 h-8 py-2 mt-2 text-center text-white bg-black opacity-70">
+                        {rowIndex * 3 + index + 1}
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                <div
+                  className="term-border"
+                  style={{
+                    position: "absolute",
+                    top: isTermDown ? `100%` : "-50%",
+                    width: 0,
+                    height: 0,
+                    borderLeft: "120px solid transparent",
+                    borderRight: "120px solid transparent",
+                    borderTop: isTermDown ? `120px solid ${term.color}` : "none",
+                    borderBottom: isTermUp ? `120px solid ${term.color}` : "none",
+                    opacity: 0.8,
+                  }}
+                />
+              </div>
+            );
+          })}
+        </div>
+      );
+    })
+  )}
+</div>
+{/* Mobile Version */}
+<div className="terms-mobile mt-10 mb-10 space-y-10  flex flex-row justify-center sm:hidden">
+   {category.terms.map((term, index) => {
+     // تحديد إذا كان العنصر فردي أو زوجي
+     const isTermDown = index % 2 === 0; // إذا كان العدد فردي سيكون isTermDown
+     const isTermUp = index % 2 !== 0;  // إذا كان العدد زوجي سيكون isTermUp
+ 
+     return (
+       <div key={index} className={`${isTermDown ? 'term-down' : 'term-up'} w-60 h-60 cursor-pointer relative `}
+         onClick={() => handleTermClick(term)}
+         style={{
+           backgroundColor: term.color || "#000",
+         }}>
+         
+         {/* إذا كان فردي، يظهر isTermDown */}
+         {isTermDown && (
+           <>
+             <div className="flex justify-between header-term">
+
+             <div className="icon-term text-white mt-2 mr-2">
+                        <i
+                          onClick={(event) => deleteTerm(event, rowIndex * 3 + index)}
+                          className="fa-solid fa-trash cursor-pointer ml-4"
+                        />
+                        <i
+                          onClick={(event) => handleEditTerm(event, term)}
+                          className="fa-solid fa-pen-to-square cursor-pointer"
+                        />
+                      </div>
+               <div className="number-term w-8 h-8 py-2 text-center text-white bg-black opacity-70">
+                 {index + 1}
+               </div>
+
+             </div>
+             <h2 className="text-center text-white mt-6 h-44 text-xl px-2 term-title">
+               {term.title}
+             </h2>
+           </>
+         )}
+ 
+         {/* إذا كان زوجي، يظهر isTermUp */}
+         {isTermUp && (
+           <>
+             <h2 className="text-center text-white mt-6 h-44 text-xl px-2 term-title">
+               {term.title}
+             </h2>
+             <div className="flex justify-between header-term">
+
+             <div className="icon-term text-white mt-2 mr-2">
+                        <i
+                          onClick={(event) => deleteTerm(event, rowIndex * 3 + index)}
+                          className="fa-solid fa-trash cursor-pointer ml-4"
+                        />
+                        <i
+                          onClick={(event) => handleEditTerm(event, term)}
+                          className="fa-solid fa-pen-to-square cursor-pointer"
+                        />
+                      </div>
+               <div className="number-term w-8 h-8 py-2 mt-2 text-center text-white bg-black opacity-70">
+                 {index + 1}
+               </div>
+
+             </div>
+           </>
+         )}
+ 
+         {/* إضافة تأثير مثلث على حسب اللون */}
+         <div
+           className="term-border"
+           style={{
+             position: "absolute",
+             top: isTermDown ? "100%" : "-50%",
+             width: 0,
+             height: 0,
+             borderLeft: "120px solid transparent",
+             borderRight: "120px solid transparent",
+             borderTop: isTermDown ? `120px solid ${term.color}` : "none",
+             borderBottom: isTermUp ? `120px solid ${term.color}` : "none",
+             opacity: 0.8,
+           }}
+         />
+       </div>
+     );
+   })}
+ </div>
+   
           </div>   
       </section>
     </>

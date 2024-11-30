@@ -34,7 +34,7 @@ function App() {
   const addCategory = (newCategory) => {
     setCategories((prevCategories) => [...prevCategories, { ...newCategory, terms: [] }]);
   };
-
+ 
 
   const addTerm = (newTerm) => {
     setCategories((prevCategories) => {
@@ -65,17 +65,17 @@ function App() {
       <Route path='/' index element={<Login />}/>
       <Route path="/addcategory" element={<AddCategory addCategory={addCategory} setCategories={setCategories} />} />
       <Route path="/homeadmin" element={<HomeAdmin categories={categories} setCategories={setCategories} setCurrentCategory={setCurrentCategory}  />} /> 
-      <Route path='/homeViewer' element={<HomeViewer />}/>
-      <Route path='/homeEditor' element={<HomeEditor />}/>
-      <Route path='/categorytitle' element={<CategoryContentViewer />}/>
+      <Route path='/homeViewer' element={<HomeViewer categories={categories} setCategories={setCategories} setCurrentCategory={setCurrentCategory} />}/>
+      <Route path='/homeEditor' element={<HomeEditor categories={categories} setCategories={setCategories} setCurrentCategory={setCurrentCategory}  />} />
+      <Route path='/categorytitle' element={<CategoryContentViewer currentCategory={currentCategory} setCurrentCategory={setCurrentCategory} setCategories={setCategories} />}/>
       <Route path='/categorytitleadmin' element={<CategoryContentAdmin currentCategory={currentCategory} setCurrentCategory={setCurrentCategory} setCategories={setCategories} />} />
-      <Route path='/addterm' element={<AddTerm addTerm={addTerm} currentCategory={currentCategory} setCurrentCategory={setCurrentCategory}    />}/>
-      <Route path='/termcontent' element={<TermContent />}/>
-      <Route path='/termcontentEditor' element={<TermContentEditor />}/>
-      <Route path='/termcontentViewer' element={<TermContentViewer />}/>
-      <Route path='/categorytitleEditor' element={<CategoryContentEditor />}/>
-      <Route path='/addcategoryeditor' element={<AddCategoryEditor />}/>
-      <Route path='/addtermeditor' element={<AddTermEditor />}/>
+      <Route path='/addterm' element={<AddTerm addTerm={addTerm} currentCategory={currentCategory} setCurrentCategory={setCurrentCategory} setCategories={setCategories}    />}/>
+      <Route path='/termcontent' element={<TermContent currentCategory={currentCategory} setCurrentCategory={setCurrentCategory} />}/>
+      <Route path='/termcontentEditor' element={<TermContentEditor currentCategory={currentCategory} setCurrentCategory={setCurrentCategory}  />}/>
+      <Route path='/termcontentViewer' element={<TermContentViewer  currentCategory={currentCategory} setCurrentCategory={setCurrentCategory} />}/>
+      <Route path='/categorytitleEditor' element={<CategoryContentEditor currentCategory={currentCategory} setCurrentCategory={setCurrentCategory} setCategories={setCategories} />}/>
+      <Route path='/addcategoryeditor' element={<AddCategoryEditor  addCategory={addCategory} setCategories={setCategories} />}/>
+      <Route path='/addtermeditor' element={<AddTermEditor addTerm={addTerm} currentCategory={currentCategory} setCurrentCategory={setCurrentCategory} setCategories={setCategories}    />} />
 
 
     </Routes>

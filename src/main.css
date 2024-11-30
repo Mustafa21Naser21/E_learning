@@ -4,12 +4,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
-html{
-   direction: rtl; 
-   min-width: 650px;
-   min-height: 600px; 
-   overflow: auto;
-}
 :root{
 
     --greenYellow:#A3BB10;
@@ -28,13 +22,11 @@ html{
     text-decoration: none;
 }
 
-body{
+body,html{
+    direction: rtl;
     font-family:"Cairo", sans-serif;
     background-color: #eee;
-    min-width: 650px; 
-    min-height: 600px; 
-    overflow: auto;
-    
+
 }
 
 
@@ -63,25 +55,19 @@ textarea{
     height: 150px;
     overflow: auto;
 }
-.add1,.add2{
-    background-color: var(--greenYellow);
+.back-home{
+    position: absolute;
+    left: 2%;
+    top: 15%;
+    z-index: 50;
 }
-.add3,.add4{
-    background-color: var(--green);
-}
-.add5,.add6{
-    background-color: var(--darkBlue);
-}.add7,.add8{
-    background-color: var(--purple);
-}.add9,.add10{
-    background-color: var(--red);
-}
+
 .add1::before{
     content: '';
     position: absolute;
     width: 130px;
     height: 5px;
-    background-color:var(--greenYellow) ;
+    background-color: var(--dynamic-color, #A3BB10);
     left: -130px;
     top: 35px;
 }
@@ -90,9 +76,9 @@ textarea{
     position: absolute;
     width: 20px;
     height: 20px;
-    border: 1px solid var(--greenYellow);
+    border: 1px solid  var(--dynamic-color, #A3BB10);
     border-radius: 50%;
-    background-color:var(--greenYellow) ;
+    background-color: var(--dynamic-color, #A3BB10) ;
     left: -130px;
     top: 27px;
 }
@@ -101,7 +87,7 @@ textarea{
     position: absolute;
     width: 130px;
     height: 5px;
-    background-color:var(--greenYellow) ;
+    background-color: var(--dynamic-color, #A3BB10); 
     right: -130px;
     top: 35px;
 }
@@ -110,9 +96,9 @@ textarea{
     position: absolute;
     width: 20px;
     height: 20px;
-    border: 1px solid var(--greenYellow);
+    border: 1px solid  var(--dynamic-color, #A3BB10);
     border-radius: 50%;
-    background-color:var(--greenYellow) ;
+    background-color: var(--dynamic-color, #A3BB10);
     right: -130px;
     top: 27px;
 }
@@ -121,7 +107,7 @@ textarea{
     position: absolute;
     width: 75px;
     height: 5px;
-    background-color:var(--green) ;
+    background-color:var(--dynamic-color, #A3BB10);
     left: -75px;
     top: 40px;
 }
@@ -130,9 +116,9 @@ textarea{
     position: absolute;
     width: 20px;
     height: 20px;
-    border: 1px solid var(--green);
+    border: 1px solid var(--dynamic-color, #A3BB10);
     border-radius: 50%;
-    background-color:var(--green) ;
+    background-color:var(--dynamic-color, #A3BB10);
     left: -75px;
     top: 32px;
 }
@@ -141,7 +127,7 @@ textarea{
     position: absolute;
     width: 80px;
     height: 5px;
-    background-color:var(--green) ;
+    background-color:var(--dynamic-color, #A3BB10);
     right: -80px;
     top: 40px;
 }
@@ -150,9 +136,9 @@ textarea{
     position: absolute;
     width: 20px;
     height: 20px;
-    border: 1px solid var(--green);
+    border: 1px solid var(--dynamic-color, #A3BB10);
     border-radius: 50%;
-    background-color:var(--green) ;
+    background-color:var(--dynamic-color, #A3BB10);
     right: -80px;
     top: 32px;
 }
@@ -161,7 +147,7 @@ textarea{
     position: absolute;
     width: 65px;
     height: 5px;
-    background-color:var(--darkBlue) ;
+    background-color:var(--dynamic-color, #A3BB10);
     left: -65px;
     top: 42px;
 }
@@ -170,9 +156,9 @@ textarea{
     position: absolute;
     width: 20px;
     height: 20px;
-    border: 1px solid var(--darkBlue);
+    border: 1px solid var(--dynamic-color, #A3BB10);
     border-radius: 50%;
-    background-color:var(--darkBlue) ;
+    background-color:var(--dynamic-color, #A3BB10);
     left: -65px;
     top: 34px;
 }
@@ -181,7 +167,7 @@ textarea{
     position: absolute;
     width: 70px;
     height: 5px;
-    background-color:var(--darkBlue) ;
+    background-color:var(--dynamic-color, #A3BB10);
     right: -70px;
     top: 32px;
 }
@@ -190,9 +176,9 @@ textarea{
     position: absolute;
     width: 20px;
     height: 20px;
-    border: 1px solid var(--darkBlue);
+    border: 1px solid var(--dynamic-color, #A3BB10);
     border-radius: 50%;
-    background-color:var(--darkBlue) ;
+    background-color:var(--dynamic-color, #A3BB10);
     right: -70px;
     top: 24px;
 }
@@ -202,7 +188,7 @@ textarea{
     position: absolute;
     width: 80px;
     height: 5px;
-    background-color:var(--purple) ;
+    background-color:var(--dynamic-color, #A3BB10);
     left: -80px;
     top: 32px;
 }
@@ -211,9 +197,9 @@ textarea{
     position: absolute;
     width: 20px;
     height: 20px;
-    border: 1px solid var(--purple);
+    border: 1px solid var(--dynamic-color, #A3BB10);
     border-radius: 50%;
-    background-color:var(--purple) ;
+    background-color:var(--dynamic-color, #A3BB10);
     left: -80px;
     top: 24px;
 }
@@ -222,7 +208,7 @@ textarea{
     position: absolute;
     width: 85px;
     height: 5px;
-    background-color:var(--purple) ;
+    background-color:var(--dynamic-color, #A3BB10);
     right: -85px;
     top: 32px;
 }
@@ -231,9 +217,9 @@ textarea{
     position: absolute;
     width: 20px;
     height: 20px;
-    border: 1px solid var(--purple);
+    border: 1px solid var(--dynamic-color, #A3BB10);
     border-radius: 50%;
-    background-color:var(--purple) ;
+    background-color:var(--dynamic-color, #A3BB10);
     right: -85px;
     top: 24px;
 }
@@ -242,7 +228,7 @@ textarea{
     position: absolute;
     width: 130px;
     height: 5px;
-    background-color:var(--red) ;
+    background-color:var(--dynamic-color, #A3BB10);
     left: -130px;
     top: 30px;
 }
@@ -251,9 +237,9 @@ textarea{
     position: absolute;
     width: 20px;
     height: 20px;
-    border: 1px solid var(--red);
+    border: 1px solid var(--dynamic-color, #A3BB10);
     border-radius: 50%;
-    background-color:var(--red) ;
+    background-color:var(--dynamic-color, #A3BB10);
     left: -130px;
     top: 22px;
 }
@@ -262,7 +248,7 @@ textarea{
     position: absolute;
     width: 135px;
     height: 5px;
-    background-color:var(--red) ;
+    background-color:var(--dynamic-color, #A3BB10);
     right: -135px;
     top: 30px;
 }
@@ -271,9 +257,9 @@ textarea{
     position: absolute;
     width: 20px;
     height: 20px;
-    border: 1px solid var(--red);
+    border: 1px solid var(--dynamic-color, #A3BB10);
     border-radius: 50%;
-    background-color:var(--red) ;
+    background-color:var(--dynamic-color, #A3BB10);
     right: -135px;
     top: 22px;
     
@@ -331,7 +317,7 @@ textarea{
     position: absolute;
     top:40%;
 }.term-up{
-    margin-top: 18rem;
+    margin-top: 14rem !important;
 }
 .term-down::after{
     content: '';
@@ -402,17 +388,31 @@ textarea{
     transition: 0.3s;
 }
 .attached:hover{
-    transform:rotate(0) ;
+    transform:rotate(0);
+
     .attached-text{
-        transform: rotate(0)translateY(30px) !important;
-    
+        transform: rotate(0)translateY(30px) !important; 
     }
+    .fa-trash{
+        transform: rotate(0)translateY(30px) !important;
+       top:-15px;
+       left: 100px;
+    }
+
 }
 .attached-text{
     transform: rotate(-45deg)translate(-45px,40px) !important;
     transition: 0.3s;
 
 }
+.attached .fa-trash{
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    transform: rotate(-45deg);
+    transition: 0.3s;
+}
+
 div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){
     background-color: #2657A1 !important;     
 }
@@ -684,6 +684,19 @@ div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){
         right:15%;
         top: 90%;
     }
+    .back-home{
+     display: none;
+    }
+    .term-up{
+        margin-top: 16rem !important;
+    }
+    .btn-add{
+        margin-bottom: 5rem !important;
+    }
+    .attached-text{
+        transform: rotate(-45deg)translate(-25px,10px) !important;
+    }
+
  
 }
 
@@ -793,6 +806,10 @@ div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){
         width: 400px;
         height: 550px;
     
+    }
+    .back-home{
+        left: 2%;
+        top: 8%;
     }
 
 

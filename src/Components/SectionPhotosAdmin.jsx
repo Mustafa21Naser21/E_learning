@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Navigation, Autoplay } from "swiper/modules";
+import { Scrollbar,Pagination, Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import 'swiper/css/scrollbar';
 import Swal from 'sweetalert2';
 
 export default function SectionPhotos() {
@@ -106,15 +107,20 @@ export default function SectionPhotos() {
             pagination={{
               clickable: true,
             }}
-            modules={[Pagination]}
+            freeMode={true} // تفعيل التمرير الحر
+            scrollbar={{
+             hide: true, // إظهار شريط التمرير
+            draggable: true, // تمكين السحب على شريط التمرير
+           }}
+            modules={[Scrollbar, Pagination]}
             className="mySwiper mt-8"
           >
             {images.map((src, index) => (
               <SwiperSlide key={index}>
                 <div className="relative">
                   <img
-                    style={{ height: "80%" }}
-                    className="w-full"
+                    style={{ height: "150px",width:'180px', objectFit: "cover", }}
+                    
                     src={src}
                     alt={`slide ${index + 1}`}
                   />

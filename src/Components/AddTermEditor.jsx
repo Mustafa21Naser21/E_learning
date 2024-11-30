@@ -1,122 +1,222 @@
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import HeaderViewer from './Header';
 
-import Swal from 'sweetalert2'
-import { Link } from "react-router-dom";
-import HeaderViewer from './HeaderViewer';
+export default function AddTermEditor({ addTerm, currentCategory, setCurrentCategory }) {
+  const location = useLocation();
+  const navigate = useNavigate();
 
-export default function AddTermEditor() {
+  
+  const { isEdit, termTitle: initialTitle, termContent: initialContent, termDescription: initialDescription, attachments: initialAttachments, termColor: initialColor } = location.state || {};
 
+  const [termTitle, setTermTitle] = useState(initialTitle || "");
+  const [termContent, setTermContent] = useState(initialContent || "");
+  const [termDescription, setTermDescription] = useState(initialDescription || "");
+  const [fileName, setFileName] = useState("");
+  const [fileURL, setFileURL] = useState("");
+  const [termColor, setTermColor] = useState(initialColor || "#ffffff");
+  const [attachments, setAttachments] = useState(initialAttachments || []);
 
-  function addTerm(){
-    Swal.fire({
-      position: "center",
-      icon: "success",
-      title: "تم  اضافة البند بنجاح",
-      showConfirmButton: false,
-      timer: 2000
-    });
-  }
-  function addAttached(){
-    Swal.fire({
-      position: "center",
-      icon: "success",
-      title: "تم  اضافة المرفق بنجاح",
-      showConfirmButton: false,
-      timer: 2000
-    });
-    document.querySelector(".add-file").style.display='none';
-  }
-
-    function show(e){
-        e.preventDefault();
-        document.querySelector(".add-file").style.display='block';       
+  const handleAddTerm = (e) => {
+    e.preventDefault();
+  
+    if (termTitle.trim() === "" || termDescription.trim() === "" || termContent.trim() === "") {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "يرجى إدخال عنوان البند",
+        showConfirmButton: true
+      });
+      return;
     }
-    function hidden(){
-        document.querySelector(".add-file").style.display='none';
-    }
-    const handleFileChange = (event) => {
-      const files = event.target.files;
-      console.log("Selected files:", files);
-      // هنا يمكنك التعامل مع الملفات بعد تحميلها
+  
+    const newTerm = {
+      title: termTitle,
+      content: termContent,
+      description: termDescription,
+      color: termColor,
+      attachments,
     };
-  return (
+  
+    const updatedCategory = {
+      ...currentCategory,
+      terms: Array.isArray(currentCategory.terms) ? [...currentCategory.terms, newTerm] : [newTerm]
+    };
+  
+  
+    localStorage.setItem(currentCategory.title, JSON.stringify(updatedCategory));
+  
+   
+    setCurrentCategory(updatedCategory);
+  
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: isEdit ? "تم تعديل البند بنجاح" : "تم إضافة البند بنجاح",
+      showConfirmButton: false,
+      timer: 2000
+    }).then(() => {
+      navigate('/categorytitleEditor', {
+        state: {
+          title: updatedCategory.title,
+          description: updatedCategory.description,
+          terms: updatedCategory.terms 
+        }
+      });
+    });
+  };
+  
+  
+ 
 
-    <>
-     <HeaderViewer />
+  
 
-    <section>
 
-    <div className="add-term relative mt-20">
+  function addAttached() {
+    if (fileName && fileURL) {
+      const newAttachment = { name: fileName, url: fileURL };
+
       
+      setAttachments([...attachments, newAttachment]);
 
-    <form className="" action="">
+      Swal.fire({
+        position: "top-center",
+        icon: "success",
+        title: "تم اضافة المرفق بنجاح",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      document.querySelector(".add-file").style.display = 'none';
+      setFileName(""); 
+      setFileURL(""); 
+    } else {
+      Swal.fire({
+        position: "top-center",
+        icon: "error",
+        title: "يرجى إدخال اسم المرفق وتحميل الملف",
+        showConfirmButton: true,
+      });
+    }
+  }
 
-    <div className=" block">
-    <label style={{marginRight:'10%'}} className="text-4xl font-bold block mb-4 " htmlFor="addCategory">عنوان البند :</label>
-    <input id="addCategory" style={{width:'80%',marginLeft:'10%',marginRight:'10%'}} name="" className="w-72 h-12 p-4 border border-input outline-slate-400 rounded-lg" type="text" />
-    </div>
+  function showFileInput(e) {
+    e.preventDefault();
+    document.querySelector(".add-file").style.display = 'block';
+  }
 
-    <div className=" block mt-10">
-    <label style={{marginRight:'10%'}} className="text-4xl font-bold block mb-4 " htmlFor="addCategory">محتوى البند :</label>
-    <input id="addCategory" style={{width:'80%',marginLeft:'10%',marginRight:'10%'}} name="" className="w-72 h-12 p-4 border border-input outline-slate-400 rounded-lg" type="text" />
-    </div>
+  function hideFileInput() {
+    document.querySelector(".add-file").style.display = 'none';
+  }
 
-    <div className="block mt-10">
-    <label style={{marginRight:'10%'}} className="text-4xl font-bold block mb-4" htmlFor="">شرح البند :</label>
-    <textarea style={{width:'80%',marginLeft:'10%',marginRight:'10%'}} className="w-72 h-32 p-4 border border-input outline-slate-400 rounded-lg" name="" id=""></textarea>
-    </div>
+  function handleFileChange(event) {
+    const file = event.target.files[0];
+    if (file) {
+      setFileURL(URL.createObjectURL(file)); // إنشاء رابط URL للملف للعرض
+    }
+  }
 
-    <div className=" block mt-10">
-    <label style={{marginRight:'10%'}} className="text-4xl font-bold block mb-4 " htmlFor="addCategory">النسبة المئوية :</label>
-    <input id="addCategory" value={'0%'} style={{width:'5%',marginLeft:'10%',marginRight:'10%'}} name="" className="w-72 h-12 p-4 border border-input outline-slate-400 rounded-lg" type="text" />
-    </div>
+  return (
+    <>
+      <HeaderViewer />
+      <section>
+        <div className="add-term relative mt-20">
+          <form className="" action="" onSubmit={handleAddTerm}>
+           
+            <div className="block">
+              <label style={{ marginRight: '10%' }} className="text-4xl font-bold block mb-4 " htmlFor="addCategory">عنوان البند :</label>
+              <input id="addCategory" style={{ width: '80%', marginLeft: '10%', marginRight: '10%' }} className="w-72 h-12 p-4 border border-input outline-slate-400 rounded-lg" type="text"
+                 maxLength={150}  value={termTitle}
+                onChange={(e) => setTermTitle(e.target.value)}
+              />
+            </div>
 
-    <div className=" block mt-10">
-    <label style={{marginRight:'10%'}} className="text-4xl font-bold block mb-4 " htmlFor="addCategory">المرفقات و الروابط  :</label>
-    <button onClick={show} style={{marginRight:'10%'}} className='w-64 h-16 mt-4  font-bold border-2 border-black text-4xl px-4 py-2 rounded-lg'><i className="fa-solid fa-plus px-2  ml-4 text-white bg-header rounded-full"/>اضافة مرفق</button>
-    </div>
+            <div className="block mt-10">
+              <label style={{ marginRight: '10%' }} className="text-4xl font-bold block mb-4 " htmlFor="addCategory">محتوى البند :</label>
+              <input id="addCategory" style={{ width: '80%', marginLeft: '10%', marginRight: '10%' }} className="w-72 h-12 p-4 border border-input outline-slate-400 rounded-lg" type="text"
+                value={termContent}
+                onChange={(e) => setTermContent(e.target.value)}
+              />
+            </div>
 
+            <div className="block mt-10">
+              <label style={{ marginRight: '10%' }} className="text-4xl font-bold block mb-4" htmlFor="">شرح البند :</label>
+              <input style={{ width: '80%', marginLeft: '10%', marginRight: '10%' }} className="w-72 h-32 p-4 border border-input outline-slate-400 rounded-lg"
+                value={termDescription}
+                onChange={(e) => setTermDescription(e.target.value)}
+              />
+            </div>
 
-   </form>
+            <div className="block mt-10">
+              <label style={{ marginRight: '10%' }} className="text-4xl font-bold block mb-4" htmlFor=""> النسبة المئوية :</label>
+              <input style={{ width: '10%', marginLeft: '10%', marginRight: '10%' }} className="w-72 h-12 p-4 text-center border border-input outline-slate-400 rounded-lg"
+              value={'0%'} readOnly
+              />
+            </div>
 
-    <div className="btn-add-term">
-    <button onClick={addTerm} className="w-60 h-14 mb-10 mt-10 bg-header border-2 border-gray-400 text-white text-4xl px-4 py-2 rounded-lg hover:opacity-90 transition-opacity"> 
-      <Link to='/categorytitleEditor'>اضافة بند</Link><i className="fa-solid fa-check  border-2 border-white w-8 h-8 rounded-full text-xl "></i>
-      </button>
-   </div>
+            <div className="block mt-10">
+              <label style={{ marginRight: '10%' }} className="text-4xl font-bold block mb-4 " htmlFor="addCategory"> لون الايقونة :</label>
+              <input id="addCategory" style={{ width: '10%', marginLeft: '10%', marginRight: '10%' }} className="w-72 h-12 p-4 border border-input outline-slate-400 rounded-lg" type="color"
+                value={termColor}
+                onChange={(e) => setTermColor(e.target.value)}
+              />
+            </div>
 
-   <div className="add-file bg-white hidden w-96 h-96 rounded-lg">
-   <i onClick={hidden} className="fa-solid fa-xmark"/>
+            <div className="block mt-10">
+              <label style={{ marginRight: '10%' }} className="text-4xl font-bold block mb-4 " htmlFor="addCategory">المرفقات و الروابط :</label>
+              <button onClick={showFileInput} style={{ marginRight: '10%' }} className='w-64 h-16 mt-4 font-bold border-2 border-black text-4xl px-4 py-2 rounded-lg'>
+                <i className="fa-solid fa-plus px-2 ml-4 text-white bg-header rounded-full" />اضافة مرفق
+              </button>
+            </div>
 
-   <div className=" block mt-10">
-    <label style={{marginRight:'10%'}} className="text-3xl font-bold block mb-4 " htmlFor="addCategory">اسم المرفق  :</label>
-    <input id="addCategory" style={{width:'80%',marginLeft:'10%',marginRight:'10%'}} name="" className="w-72 h-12 p-4 border border-input outline-slate-400 rounded-xl" type="text" />
-    </div>
+            <div className="btn-add-term">
+              <button type="submit" className="w-60 h-14 mb-10 mt-10 bg-header border-2 border-gray-400 text-white text-4xl px-4 py-2 rounded-lg">
+              {isEdit ?"تعديل البند" : "اضافة البند"} 
+                <i className="fa-solid fa-check border-2 border-white w-8 h-8 rounded-full text-xl "></i>
+              </button>
+            </div>
+          </form>
 
-    <div className=" block relative mt-10">
-    <i className="fa-solid fa-file-arrow-up"/>
-    <label htmlFor="file-upload" style={{ cursor: 'pointer' }}>
-    <i className="fa-solid fa-file-arrow-up"/>
-      </label>
-      <input 
-        id="file-upload" 
-        type="file" 
-        onChange={handleFileChange} 
-        style={{ display: 'none' }} 
-      />
-    <label style={{marginRight:'10%'}} className="text-3xl font-bold block mb-4 " htmlFor="addCategory"> تحميل المرفق :</label>
-    <input  id="addCategory" style={{width:'80%',marginLeft:'10%',marginRight:'10%'}} name="" className="w-72 h-20 p-4 border border-input outline-slate-400 rounded-xl" type="text" />
-    </div>
+          <div className="add-file bg-white hidden w-96 h-96 rounded-lg">
+            <i onClick={hideFileInput} className="fa-solid fa-xmark" style={{ cursor: 'pointer', float: 'right', padding: '10px' }} />
 
-    <button onClick={addAttached}  className="w-60 h-14 mb-2 mr-28 mt-14 bg-header border-2 border-gray-400 text-white text-4xl px-4 py-2 rounded-lg">اضافة المرفق<i className="fa-solid fa-check  border-2 border-white w-8 h-8 rounded-full text-xl "></i></button>
+            <div className="block mt-10">
+              <label style={{ marginRight: '10%' }} className="text-3xl font-bold block mb-4">اسم المرفق :</label>
+              <input style={{ width: '80%', marginLeft: '10%', marginRight: '10%' }} className="w-72 h-12 p-4 border border-input outline-slate-400 rounded-xl"
+                type="text"
+                value={fileName}
+                onChange={(e) => setFileName(e.target.value)} // المستخدم يدخل اسم المرفق
+              />
+            </div>
 
-   </div>
+            <div className="block relative mt-10">
+              <label htmlFor="file-upload" style={{ marginRight: '10%' }} className="text-3xl font-bold block mb-4 cursor-pointer">
+                <i className="fa-solid fa-file-arrow-up" /> تحميل المرفق:
+              </label>
+              <input
+                id="file-upload"
+                type="file"
+                onChange={handleFileChange}
+                style={{ display: 'none' }}
+              />
+              <input
+                type="text"
+                value={fileURL ? "تم تحميل الملف" : ""}
+                readOnly
+                className="w-72 h-20 p-4 border border-input outline-slate-400 rounded-xl"
+                style={{ width: '80%', marginLeft: '10%', marginRight: '10%' }}
+              />
+            </div>
 
-
-</div>
-    </section>
-    
+            <button style={{ marginRight: '25%' }} onClick={addAttached} className="w-60 h-14 mb-2 mt-14 bg-header border-2 border-gray-400 text-white text-4xl px-4 py-2 rounded-lg">
+              اضافة المرفق
+            </button>
+          </div>
+        </div>
+      </section>
     </>
-
-
-  )
+  );
 }
+
+
+ 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation,Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import Header from './Header';
 
@@ -19,9 +19,9 @@ export default function AddTerm({ addTerm, currentCategory, setCurrentCategory }
   const [termColor, setTermColor] = useState(initialColor || "#ffffff");
   const [attachments, setAttachments] = useState(initialAttachments || []);
 
-  function handleAddTerm(e) {
+  const handleAddTerm = (e) => {
     e.preventDefault();
-    
+  
     if (termTitle.trim() === "" || termDescription.trim() === "" || termContent.trim() === "") {
       Swal.fire({
         position: "center",
@@ -32,7 +32,6 @@ export default function AddTerm({ addTerm, currentCategory, setCurrentCategory }
       return;
     }
   
-    
     const newTerm = {
       title: termTitle,
       content: termContent,
@@ -41,50 +40,37 @@ export default function AddTerm({ addTerm, currentCategory, setCurrentCategory }
       attachments,
     };
   
+  
+    const updatedCategory = {
+      ...currentCategory,
+      terms: Array.isArray(currentCategory.terms) ? [...currentCategory.terms, newTerm] : [newTerm]
+    };
+  
+   
+    localStorage.setItem(currentCategory.title, JSON.stringify(updatedCategory));
+  
     
-    if (isEdit) {
-      
-      const updatedCategory = {
-        ...currentCategory,
-        terms: currentCategory.terms.map(term =>
-          term.title === initialTitle ? newTerm : term // استبدال البند إذا كان العنوان مطابقًا
-        )
-      };
+    setCurrentCategory(updatedCategory);
   
-      setCurrentCategory(updatedCategory);
-      
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "تم تعديل البند بنجاح",
-        showConfirmButton: false,
-        timer: 2000
-      }).then(() => {
-        navigate('/categorytitleadmin');
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: isEdit ? "تم تعديل البند بنجاح" : "تم إضافة البند بنجاح",
+      showConfirmButton: false,
+      timer: 2000
+    }).then(() => {
+      navigate('/categorytitleadmin', {
+        state: {
+          title: updatedCategory.title,
+          description: updatedCategory.description,
+          terms: updatedCategory.terms 
+        }
       });
-    } else {
-      // إضافة بند جديد
-      addTerm(newTerm);
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "تم إضافة البند بنجاح",
-        showConfirmButton: false,
-        timer: 2000
-      }).then(() => {
-        navigate('/categorytitleadmin', {
-          state: {
-            title: currentCategory.title,
-            description: currentCategory.description,
-            terms: currentCategory.terms
-          }
-        });
-        
-      });
-    }
-  }
+    });
+  };
   
-  // باقي الكود كما هو لنقل المرفقات وتحديث الألوان
+  
+  
 
   
 
@@ -92,20 +78,34 @@ export default function AddTerm({ addTerm, currentCategory, setCurrentCategory }
   function addAttached() {
     if (fileName && fileURL) {
       const newAttachment = { name: fileName, url: fileURL };
-
-      // تحديث قائمة المرفقات
-      setAttachments([...attachments, newAttachment]);
-
+  
+      
+      const updatedAttachments = [...attachments, newAttachment];
+      setAttachments(updatedAttachments);
+  
+      
+      const updatedCategory = {
+        ...currentCategory,
+        terms: currentCategory.terms.map((term) => {
+          if (term.content === termContent) {
+            return { ...term, attachments: updatedAttachments };  
+          }
+          return term;
+        })
+      };
+      localStorage.setItem(currentCategory.title, JSON.stringify(updatedCategory)); 
+  
       Swal.fire({
         position: "top-center",
         icon: "success",
-        title: "تم اضافة المرفق بنجاح",
+        title: "تم إضافة المرفق بنجاح",
         showConfirmButton: false,
         timer: 2000
       });
+  
       document.querySelector(".add-file").style.display = 'none';
-      setFileName(""); // إعادة تعيين اسم المرفق
-      setFileURL(""); // إعادة تعيين رابط المرفق
+      setFileName("");
+      setFileURL(""); 
     } else {
       Swal.fire({
         position: "top-center",
@@ -115,6 +115,7 @@ export default function AddTerm({ addTerm, currentCategory, setCurrentCategory }
       });
     }
   }
+  
 
   function showFileInput(e) {
     e.preventDefault();
@@ -128,21 +129,26 @@ export default function AddTerm({ addTerm, currentCategory, setCurrentCategory }
   function handleFileChange(event) {
     const file = event.target.files[0];
     if (file) {
-      setFileURL(URL.createObjectURL(file)); // إنشاء رابط URL للملف للعرض
+      setFileURL(URL.createObjectURL(file)); 
     }
   }
 
   return (
     <>
       <Header />
+
+      <div className="back-home ">
+      <Link to="/homeadmin"><i className="fa-solid fa-house text-3xl cursor-pointer text-header"/></Link>
+      </div>
+
       <section>
         <div className="add-term relative mt-20">
           <form className="" action="" onSubmit={handleAddTerm}>
-            {/* الحقول السابقة لعنوان البند، محتوى البند وشرح البند */}
+           
             <div className="block">
               <label style={{ marginRight: '10%' }} className="text-4xl font-bold block mb-4 " htmlFor="addCategory">عنوان البند :</label>
               <input id="addCategory" style={{ width: '80%', marginLeft: '10%', marginRight: '10%' }} className="w-72 h-12 p-4 border border-input outline-slate-400 rounded-lg" type="text"
-                value={termTitle}
+                maxLength={150}   value={termTitle}
                 onChange={(e) => setTermTitle(e.target.value)}
               />
             </div>
@@ -201,7 +207,7 @@ export default function AddTerm({ addTerm, currentCategory, setCurrentCategory }
               <input style={{ width: '80%', marginLeft: '10%', marginRight: '10%' }} className="w-72 h-12 p-4 border border-input outline-slate-400 rounded-xl"
                 type="text"
                 value={fileName}
-                onChange={(e) => setFileName(e.target.value)} // المستخدم يدخل اسم المرفق
+                onChange={(e) => setFileName(e.target.value)} 
               />
             </div>
 
@@ -233,4 +239,3 @@ export default function AddTerm({ addTerm, currentCategory, setCurrentCategory }
     </>
   );
 }
-

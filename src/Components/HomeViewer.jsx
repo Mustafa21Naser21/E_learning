@@ -1,135 +1,114 @@
-import { Link } from "react-router-dom";
 import Footer from './Footer'
 import HeaderViewer from './HeaderViewer'
 import SectionPhotos from  './SectionPhotos'
+import { useEffect, useState } from "react";
+import { Link,useNavigate } from "react-router-dom";
 
+function getCategoryClass(index) {
+  const classIndex = (index % 10) + 1; 
+  return `add${classIndex}`;
+}
 
-export default function HomeViewer () {
+export default function HomeViewer({ categories, setCategories, setCurrentCategory }) {
+  
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedCategories = JSON.parse(localStorage.getItem("categories")) || [];
+    setCategories(storedCategories);
+  }, []);
+
+  function handleCategoryClick(category) {
+    // عند النقر على الفئة، نمرر البنود الخاصة بها فقط
+    navigate('/categorytitle', {
+      state: {
+        title: category.title,
+        description: category.description,
+        terms: category.terms,  // إرسال البنود المرتبطة بالفئة
+      },
+    });
+  }
+  
+
   return (
-
-
     <>
+
     <HeaderViewer />
     <SectionPhotos />
 
-    <section>
+    <section className="mb-10 mt-10">
+         <div className="add-category mt-4 flex justify-between">
+            <div className="right-category mt-8" style={{ width: '35%' }}>
+              {categories.map((category, index) => (
+                index % 2 === 0 && (
+                  <div key={index}
+                  onClick={() => handleCategoryClick(category)}                      
+                       className={`add-right w-72 h-20 ${getCategoryClass(index)} mt-2 rounded-3xl mr-12 relative text-white text-center text-lg p-2 max-lg:text-base`}
+                        style={{ backgroundColor: category.color || '#A3BB10',"--dynamic-color": category.color || '#A3BB10'}}>
 
-    <div className="add-category  mt-24 flex justify-between ">
+                    <Link to='/categorytitle' state={{ title: category.title, description: category.description }}>
+                      {category.title}
+                    </Link>
 
-<div style={{width:'35%'}} className="right-category mt-8">
+                  </div>
+                )
+              ))}
+            </div>
+  
+            <div className="center-category grid grid-cols-1 justify-items-center mb-20">
+              <div style={{ width: '70%' }} className="mt-20 mb-4">
+                <h1 className="text-3xl text-center">تقرير نماذج التعلم الالكتروني الكامل عن بعد والمدمج 2024</h1>
+              </div>
+              <div style={{ marginTop: '-4rem' }}>
+                <img src="/src/images/packge-box.png" alt="" />
+              </div>
+            </div>
+  
+            <div className="left-category mt-8" style={{ width: '35%', marginLeft: '-5%' }}>
+              {categories.map((category, index) => (
+                index % 2 !== 0 && (
+                  <div key={index}
 
-<div className="add-left w-72 h-20 bg-greenYellow mt-2 rounded-3xl mr-12 relative add1">
-    <h2 className="text-white text-center text-lg p-2 max-lg:text-base"> <Link to='/categorytitle'>الفئة الاولى</Link></h2>
-</div>
-<div className="add-left w-72 h-20 bg-green mt-2 rounded-3xl mr-12 relative add3">
-    <h2 className="text-white text-center text-lg p-2 max-lg:text-base">الفئة الثالثة</h2>
-</div>
-<div className="add-left w-72 h-20 bg-darkBlue mt-2 rounded-3xl mr-12 relative add5">
-    <h2 className="text-white text-center text-lg p-2 max-lg:text-base">الفئة الخامسة</h2>
-</div>
-<div className="add-left w-72 h-20 bg-purple mt-2 rounded-3xl mr-12 relative add7">
-    <h2 className="text-white text-center text-lg p-2 max-lg:text-base">الفئة السابعة</h2>
-</div>
-<div className="add-left w-72 h-20 bg-red mt-2 rounded-3xl mr-12 relative add9">
-    <h2 className="text-white text-center text-lg p-2 max-lg:text-base">الفئة التاسعة</h2>
-</div>
+                       className={`add-left w-72 h-20 ${getCategoryClass(index)} mt-2 mr-16 rounded-3xl relative text-white text-center text-lg p-2 max-lg:text-base`}
+                       style={{ backgroundColor: category.color || '#A3BB10',"--dynamic-color": category.color || '#A3BB10' }}>
 
+                    <Link to='/categorytitle' state={{ title: category.title, description: category.description }}>
+                      {category.title}
+                    </Link>
 
-</div>
+                  </div>
+                )
+              ))}
+            </div>
+          </div>
 
-<div  className="center-category grid grid-cols-1 justify-items-center  mb-20">
+          <div className="add-category-mobile hidden mt-10 justify-between">
+          <div className="text-center px-4 mb-20">
+            <h1 className="text-3xl text-center">تقرير نماذج التعلم الالكتروني الكامل عن بعد والمدمج 2024</h1>
+          </div>
 
-<div style={{width:'70%'}} className=" mt-20 mb-4 "> <h1 className="text-3xl text-center ">تقرير نماذج التعلم الالكتروني الكامل عن بعد والمدمج 2024</h1> </div>
-<div style={{marginTop:'-4rem'}}> <img   src="/src/images/packge-box.png" alt="" /></div>
+          <div className='grid grid-cols-1'>
+            {categories.map((category, index) => (
+              index >= 0 && (
+                <div key={index}
+                     onClick={() => handleCategoryClick(category)}
+                     className={`w-72 h-20 ${getCategoryClass(index)} mt-4 rounded-3xl relative text-white text-center text-lg p-2 max-lg:text-base`}
+                     style={{ backgroundColor: category.color || '#A3BB10', "--dynamic-color": category.color || '#A3BB10' }}>
+                  <Link to='/categorytitleEditor' state={{ title: category.title, description: category.description }}>
+                    {category.title}
+                  </Link>
 
-</div>
-
-<div style={{width:'35%',marginLeft:'-5%'}} className="left-category mt-8">
-
-<div className="add-left w-72 h-20 bg-greenYellow mt-2  rounded-3xl mr-16 relative add2">
-<h2 className="text-white text-center text-lg p-2 max-lg:text-base">الفئة الثانية</h2>  
-</div>
-<div className="add-left w-72 h-20 bg-green mt-2  rounded-3xl mr-16 relative add4">
-<h2 className="text-white text-center text-lg p-2 max-lg:text-base">الفئة الرابعة</h2>
-</div>
-<div className="add-left w-72 h-20 bg-darkBlue mt-2  rounded-3xl mr-16 relative add6 ">
-<h2 className="text-white text-center text-lg p-2 max-lg:text-base">الفئة السادسة</h2>
-</div>
-<div className="add-left w-72 h-20 bg-purple mt-2  rounded-3xl mr-16 relative add8 ">
-<h2 className="text-white text-center text-lg p-2 max-lg:text-base">الفئة الثامنة</h2>
-</div>
-<div className="add-left w-72 h-20 bg-red mt-2  rounded-3xl mr-16 relative add10 ">
-<h2 className="text-white text-center text-lg p-2 max-lg:text-base">الفئة العاشرة</h2>
-</div>
-
-
-</div>
-
-</div>
-
-
-        <div className="add-category-mobile hidden  mt-24  justify-between ">
-
-    <div className="text-center px-8">
-   <h1 className="text-3xl ">تقرير نماذج التعلم الالكتروني الكامل عن بعد والمدمج 2024</h1> 
-   </div>
-
- <div className="grid grid-cols-1 justify-items-center mt-12">
-
-<div className="add-left w-72 h-20 bg-greenYellow mt-4 rounded-3xl  relative add1">
-    <h2 className="text-white text-center text-lg p-2 max-lg:text-base"><Link to='/categorytitle'>الفئة الاولى</Link></h2>
-</div>
-<div className="add-left w-72 h-20 bg-green mt-4 rounded-3xl  relative add2">
-    <h2 className="text-white text-center text-lg pt-4">الفئة الثانية</h2>
-</div>
-<div className="add-left w-72 h-20 bg-darkBlue mt-4 rounded-3xl  relative add3">
-    <h2 className="text-white text-center text-lg pt-4">الفئة الثالثة</h2>
-</div>
-<div className="add-left w-72 h-20 bg-purple mt-4 rounded-3xl  relative add4">
-    <h2 className="text-white text-center text-lg pt-4">الفئة الرابعة</h2>
-</div>
-<div className="add-left w-72 h-20 bg-red mt-4 rounded-3xl relative add5">
-    <h2 className="text-white text-center text-lg pt-4">الفئة الخامسة</h2>
-</div>
-<div className="add-left w-72 h-20 bg-greenYellow mt-4  rounded-3xl  relative add6">
-<h2 className="text-white text-center text-lg pt-4">الفئة السادسة</h2>  
-</div>
-<div className="add-left w-72 h-20 bg-green mt-4  rounded-3xl  relative add7">
-<h2 className="text-white text-center text-lg pt-4">الفئة السابعة</h2>
-</div>
-<div className="add-left w-72 h-20 bg-darkBlue mt-4  rounded-3xl  relative add8 ">
-<h2 className="text-white text-center text-lg pt-4">الفئة الثامنة</h2>
-</div>
-<div className="add-left w-72 h-20 bg-purple mt-4  rounded-3xl  relative add9 ">
-<h2 className="text-white text-center text-lg pt-4">الفئة التاسعة</h2>
-</div>
-<div className="add-left w-72 h-20 bg-red mt-4  rounded-3xl  relative add10 ">
-<h2 className="text-white text-center text-lg pt-4">الفئة العاشرة</h2>
-</div>
-
-
-</div>
-
-
-
-
-</div>
-
-      
+                </div>
+              )
+            ))}
+          </div>
+        </div>
     </section>
 
-    <Footer />
+    <Footer/>
     </>
-
-
-  )
+  );
 }
 
+  
 
-/* 
-<div className="py-10 pr-20 mt-20 w-3/4 img-cateory "><img className="" src="/src/images/packge-box.png" alt="" /></div>
-*/
-
-/*
-        
-*/
